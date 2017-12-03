@@ -26,15 +26,15 @@ public enum FxmlView {
             return "/fxml/Login.fxml";
         }
     },
-    MENU {
+    MENUADMIN {
         @Override
         public String getTitle() {
-            return getStringFromResourceBundle("menu.title");
+            return getStringFromResourceBundle("menuadmin.title");
         }
 
         @Override
         public String getFxmlFile() {
-            return "/fxml/Menu.fxml";
+            return "/fxml/MenuAdmin.fxml";
         }
     },
     CLIENT {

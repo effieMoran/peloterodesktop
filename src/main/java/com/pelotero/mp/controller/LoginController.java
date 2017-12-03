@@ -7,9 +7,6 @@ import java.util.ResourceBundle;
 import com.pelotero.mp.config.StageManager;
 import com.pelotero.mp.service.UserService;
 import com.pelotero.mp.view.FxmlView;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.MenuBar;
-import javafx.scene.layout.AnchorPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -47,7 +44,9 @@ public class LoginController implements Initializable{
 	@FXML
     private void login(ActionEvent event) throws IOException{
     	if(userService.authenticate(getUsername(), getPassword())){
-    		stageManager.switchScene(FxmlView.USER);
+    		if(userService.isAdmin(getUsername())) {
+				stageManager.switchScene(FxmlView.MENUADMIN);
+			}
     	}else{
     		lblLogin.setText("Login Failed.");
     	}
@@ -63,7 +62,7 @@ public class LoginController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		//TODO: ADD animations and leave method
 	}
 
 }

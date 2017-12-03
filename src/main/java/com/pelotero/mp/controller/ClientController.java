@@ -324,7 +324,7 @@ public class ClientController implements Initializable {
                 @Override
                 public TableCell<User, Boolean> call( final TableColumn<User, Boolean> param)
                 {
-                    final TableCell<User, Boolean> cell = new TableCell<User, Boolean>()
+                    return new TableCell<User, Boolean>()
                     {
                         Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
                         final Button btnEdit = new Button();
@@ -368,7 +368,6 @@ public class ClientController implements Initializable {
                             cbRole.getSelectionModel().select(user.getRole());
                         }
                     };
-                    return cell;
                 }
             };
 

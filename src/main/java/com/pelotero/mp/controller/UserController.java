@@ -9,7 +9,6 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -122,7 +121,7 @@ public class UserController implements Initializable {
 	@Lazy
     @Autowired
     private StageManager stageManager;
-	
+
 	@Autowired
 	private UserService userService;
 	
@@ -139,7 +138,7 @@ public class UserController implements Initializable {
 	 */
     @FXML
     private void logout(ActionEvent event) throws IOException {
-    	stageManager.switchScene(FxmlView.LOGIN);    	
+    	stageManager.switchScene(FxmlView.LOGIN);
     }
     
     @FXML
@@ -191,10 +190,6 @@ public class UserController implements Initializable {
     	
     }
 
-    @FXML
-	public void goToClients(ActionEvent event){
-    	stageManager.switchScene(FxmlView.CLIENT);
-	}
     @FXML
     private void deleteUsers(ActionEvent event){
     	List<User> users = userTable.getSelectionModel().getSelectedItems();
@@ -332,7 +327,7 @@ public class UserController implements Initializable {
 		@Override
 		public TableCell<User, Boolean> call( final TableColumn<User, Boolean> param)
 		{
-			final TableCell<User, Boolean> cell = new TableCell<User, Boolean>()
+			return   new TableCell<User, Boolean>()
 			{
 				Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
 				final Button btnEdit = new Button();
@@ -376,7 +371,6 @@ public class UserController implements Initializable {
 					cbRole.getSelectionModel().select(user.getRole());
 				}
 			};
-			return cell;
 		}
 	};
 
@@ -418,9 +412,9 @@ public class UserController implements Initializable {
         	validationAlert(field, true);            
             return false;            
         }
-    }	
-	
-	private void validationAlert(String field, boolean empty){
+    }
+
+    private void validationAlert(String field, boolean empty){
 		Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Validation Error");
         alert.setHeaderText(null);
