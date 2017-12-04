@@ -114,7 +114,7 @@ public class UserController implements Initializable {
 
     //endregion
 
-	@Lazy
+    @Lazy
     @Autowired
     private StageManager stageManager;
 
@@ -124,15 +124,15 @@ public class UserController implements Initializable {
 	private ObservableList<User> userList = FXCollections.observableArrayList();
 	private ObservableList<String> roles = FXCollections.observableArrayList("Admin", "User");
 
-	//region ACTIONS
-	@FXML
-	private void exit(ActionEvent event) {
+    //region ACTIONS
+    @FXML
+    private void exit(ActionEvent event) {
 		Platform.exit();
     }
 
     @FXML
     private void logout(ActionEvent event) throws IOException {
-    	stageManager.switchScene(FxmlView.LOGIN);
+        stageManager.switchScene(FxmlView.LOGIN);
     }
 
     @FXML
@@ -234,7 +234,9 @@ public class UserController implements Initializable {
 		alert.setContentText("The user "+user.getFirstName()+" "+user.getLastName() +" has been updated.");
 		alert.showAndWait();
 	}
-	
+
+	//region GETTERS
+
 	private String getGenderTitle(String gender){
 		return (gender.equals("Male")) ? "his" : "her";
 	}
@@ -266,7 +268,8 @@ public class UserController implements Initializable {
 	public String getPassword() {
 		return password.getText();
 	}
-  
+
+    //endregion
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -285,29 +288,6 @@ public class UserController implements Initializable {
 	 *  Set All userTable column properties
 	 */
 	private void setColumnProperties(){
-		/* Override date format in table
-		 * colDOB.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<LocalDate>() {
-			 String pattern = "dd/MM/yyyy";
-			 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-		     @Override 
-		     public String toString(LocalDate date) {
-		         if (date != null) {
-		             return dateFormatter.format(date);
-		         } else {
-		             return "";
-		         }
-		     }
-
-		     @Override 
-		     public LocalDate fromString(String string) {
-		         if (string != null && !string.isEmpty()) {
-		             return LocalDate.parse(string, dateFormatter);
-		         } else {
-		             return null;
-		         }
-		     }
-		 }));*/
-		
 		colUserId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 		colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -382,10 +362,9 @@ public class UserController implements Initializable {
 
 		userTable.setItems(userList);
 	}
-	
-	/*
-	 * Validations
-	 */
+
+	//region VALIDATIONS
+
 	private boolean validate(String field, String value, String pattern){
 		if(!value.isEmpty()){
 			Pattern p = Pattern.compile(pattern);
@@ -422,4 +401,6 @@ public class UserController implements Initializable {
         }
         alert.showAndWait();
     }
+
+    //endregion
 }
