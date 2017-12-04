@@ -4,6 +4,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.Objects;
 
+import javafx.scene.image.Image;
 import org.slf4j.Logger;
 
 import com.pelotero.mp.view.FxmlView;
@@ -41,7 +42,7 @@ public class StageManager {
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
         primaryStage.centerOnScreen();
-        
+        primaryStage.getIcons().add(new Image("file:/resources/images/logo.png"));
         try {
             primaryStage.show();
         } catch (Exception exception) {
@@ -81,5 +82,4 @@ public class StageManager {
         LOG.error(errorMsg, exception, exception.getCause());
         Platform.exit();
     }
-
 }

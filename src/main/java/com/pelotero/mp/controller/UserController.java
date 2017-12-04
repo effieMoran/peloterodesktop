@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.pelotero.mp.Main;
+import javafx.scene.control.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -25,22 +27,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -49,6 +36,7 @@ import javafx.util.Callback;
 @Controller
 public class UserController implements Initializable {
 
+    //region FXML_CONTROLS
 	@FXML
     private Button btnLogout;
 	
@@ -87,6 +75,12 @@ public class UserController implements Initializable {
 	
 	@FXML
     private Button saveUser;
+
+    @FXML
+    private Button buttonExit;
+
+    @FXML
+    private Button buttonMenu;
 	
 	@FXML
 	private TableView<User> userTable;
@@ -117,7 +111,9 @@ public class UserController implements Initializable {
 	
 	@FXML
     private MenuItem deleteUsers;
-	
+
+    //endregion
+
 	@Lazy
     @Autowired
     private StageManager stageManager;
@@ -127,19 +123,26 @@ public class UserController implements Initializable {
 	
 	private ObservableList<User> userList = FXCollections.observableArrayList();
 	private ObservableList<String> roles = FXCollections.observableArrayList("Admin", "User");
-	
+
+	//region ACTIONS
 	@FXML
 	private void exit(ActionEvent event) {
 		Platform.exit();
     }
 
-	/**
-	 * Logout and go to the login page
-	 */
     @FXML
     private void logout(ActionEvent event) throws IOException {
     	stageManager.switchScene(FxmlView.LOGIN);
     }
+
+    @FXML
+    private void goBackToMenu(ActionEvent event) throws IOException {
+        if(Main.isAdmin) {
+            stageManager.switchScene(FxmlView.MENUADMIN);
+        }
+    }
+
+    //endregion
     
     @FXML
     void reset(ActionEvent event) {
@@ -171,7 +174,6 @@ public class UserController implements Initializable {
         			
         			saveAlert(newUser);
     			}
-    			
     		}else{
     			User user = userService.find(Long.parseLong(userId.getText()));
     			user.setFirstName(getFirstName());
@@ -193,18 +195,15 @@ public class UserController implements Initializable {
     @FXML
     private void deleteUsers(ActionEvent event){
     	List<User> users = userTable.getSelectionModel().getSelectedItems();
-    	
     	Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Confirmation Dialog");
 		alert.setHeaderText(null);
 		alert.setContentText("Are you sure you want to delete selected?");
 		Optional<ButtonType> action = alert.showAndWait();
-		
-		if(action.get() == ButtonType.OK) userService.deleteInBatch(users);
-    	
-    	loadUserDetails();
-    }
+        if(action.get() == ButtonType.OK) userService.deleteInBatch(users);
 
+        loadUserDetails();
+    }
     
    	private void clearFields() {
 		userId.setText(null);
@@ -281,9 +280,7 @@ public class UserController implements Initializable {
 		// Add all users into table
 		loadUserDetails();
 	}
-	
-	
-	
+
 	/*
 	 *  Set All userTable column properties
 	 */
@@ -404,12 +401,12 @@ public class UserController implements Initializable {
             return false;
 		}        
     }
-	
-	private boolean emptyValidation(String field, boolean empty){
+
+    private boolean emptyValidation(String field, boolean empty){
         if(!empty){
             return true;
         }else{
-        	validationAlert(field, true);            
+            validationAlert(field, true);
             return false;            
         }
     }
@@ -424,5 +421,5 @@ public class UserController implements Initializable {
         	else alert.setContentText("Please Enter Valid "+ field);
         }
         alert.showAndWait();
-	}
+    }
 }

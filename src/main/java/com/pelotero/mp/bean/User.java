@@ -14,26 +14,18 @@ import javax.persistence.Table;
 @Table(name="User")
 public class User {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id", updatable = false, nullable = false)
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
 	private long id;
-	
 	private String firstName;
-	
 	private String lastName;
-	
 	private LocalDate dob;
-	
 	private String gender;
-	
 	private String role;
-	
 	private String email;
-	
-	private String password;
+    private String password;
 
-	
 	public long getId() {
 		return id;
 	}
@@ -99,10 +91,8 @@ public class User {
 	}
 
 	@Override
-	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dob=" + dob + ", email="
-				+ email + "]";
-	}
-
-	
+    public String toString() {
+	    return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dob=" + dob + ", email="
+                + email + "]";
+    }
 }

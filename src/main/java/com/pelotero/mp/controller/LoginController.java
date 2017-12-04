@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.pelotero.mp.Main;
 import com.pelotero.mp.config.StageManager;
 import com.pelotero.mp.service.UserService;
 import com.pelotero.mp.view.FxmlView;
@@ -44,7 +45,8 @@ public class LoginController implements Initializable{
 	@FXML
     private void login(ActionEvent event) throws IOException{
     	if(userService.authenticate(getUsername(), getPassword())){
-    		if(userService.isAdmin(getUsername())) {
+    		Main.isAdmin = userService.isAdmin(getUsername());
+    		if(Main.isAdmin) {
 				stageManager.switchScene(FxmlView.MENUADMIN);
 			}
     	}else{

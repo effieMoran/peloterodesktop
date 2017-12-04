@@ -12,7 +12,7 @@ import com.pelotero.mp.view.FxmlView;
 @SpringBootApplication
 public class Main extends Application {
 
-
+    public static boolean isAdmin;
     protected ConfigurableApplicationContext springContext;
     protected  StageManager stageManager;
 

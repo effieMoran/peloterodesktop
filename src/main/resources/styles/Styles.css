@@ -7,4 +7,10 @@
 .background{
 	-fx-background-color: DODGERBLUE;
 }
+.buttonYellow{
+    -fx-background-color: #EF9C00;
+}
+.buttonRed{
+    -fx-background-color: #FF0000;
+}
 

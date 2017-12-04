@@ -18,10 +18,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="1000.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pelotero.mp.controller.UserController">
+<BorderPane prefHeight="600.0" prefWidth="1000.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pelotero.mp.controller.UserController">
    <left>
       <VBox prefHeight="571.0" prefWidth="306.0" spacing="10.0" styleClass="background" stylesheets="@../styles/Styles.css" BorderPane.alignment="CENTER">
          <children>
@@ -54,7 +55,7 @@
                <VBox.margin>
                   <Insets left="25.0" right="25.0" />
                </VBox.margin></TextField>
-            <TextField fx:id="lastName" prefHeight="30.0" prefWidth="246.0" promptText="Last Name" text="Apellido">
+            <TextField fx:id="lastName" prefHeight="30.0" prefWidth="246.0" promptText="Apellido">
                <VBox.margin>
                   <Insets left="25.0" right="25.0" />
                </VBox.margin></TextField>
@@ -130,22 +131,8 @@
    <center>
       <VBox alignment="TOP_RIGHT" prefHeight="571.0" prefWidth="692.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="TOP_RIGHT" prefHeight="41.0" prefWidth="640.0">
-               <children>
-                  <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#logout" prefHeight="22.0" prefWidth="70.0" styleClass="background" text="Logout" textFill="#fff9f9" textOverrun="CLIP">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="5.0" top="5.0" />
-                     </HBox.margin>
-                     <effect>
-                        <DropShadow blurType="ONE_PASS_BOX" color="#00000091" />
-                     </effect>
-                  </Button>
-               </children>
-            </HBox>
-            <TableView fx:id="userTable" prefHeight="300.0" prefWidth="679.0" tableMenuButtonVisible="true">
+            <HBox alignment="TOP_RIGHT" prefHeight="4.0" prefWidth="694.0" />
+            <TableView fx:id="userTable" prefHeight="491.0" prefWidth="698.0" tableMenuButtonVisible="true">
               <columns>
                 <TableColumn fx:id="colUserId" maxWidth="700.0" prefWidth="20.0" text="ID" />
                 <TableColumn fx:id="colFirstName" maxWidth="4000.0" prefWidth="75.0" text="Nombre" />
@@ -181,6 +168,29 @@
                   <Image url="@../images/MPConsultoria.png" />
                </image>
             </ImageView>
+            <Pane prefHeight="78.0" prefWidth="720.0" />
+            <VBox prefHeight="100.0" prefWidth="83.0" spacing="4.0">
+               <children>
+                  <Button fx:id="buttonExit" mnemonicParsing="false" onAction="#exit" prefHeight="28.0" prefWidth="80.0" styleClass="buttonRed" text="Salir" textFill="#fff9f9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnLogout" alignment="CENTER" mnemonicParsing="false" onAction="#logout" prefHeight="28.0" prefWidth="80.0" styleClass="buttonYellow" text="Logout" textFill="#fff9f9" textOverrun="CLIP">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <effect>
+                        <DropShadow blurType="ONE_PASS_BOX" color="#00000091" />
+                     </effect>
+                  </Button>
+                  <Button fx:id="buttonMenu" mnemonicParsing="false" onAction="#goBackToMenu" prefHeight="28.0" prefWidth="80.0" styleClass="btnGreen" text="Menu" textFill="#fff9f9">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
          </children></HBox>
    </top>
 </BorderPane>

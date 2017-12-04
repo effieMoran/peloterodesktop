@@ -1,7 +1,9 @@
 package com.pelotero.mp.controller;
 
+import com.pelotero.mp.Main;
 import com.pelotero.mp.config.StageManager;
 import com.pelotero.mp.view.FxmlView;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -128,6 +130,23 @@ public class MenuAdminController implements Initializable {
     }
     @FXML
     private void goToPayments(ActionEvent event) throws IOException {
+    }
+
+    @FXML
+    private void exit(ActionEvent event) {
+        Platform.exit();
+    }
+
+    @FXML
+    private void logout(ActionEvent event) throws IOException {
+        stageManager.switchScene(FxmlView.LOGIN);
+    }
+
+    @FXML
+    private void goBackToMenu(ActionEvent event) throws IOException {
+        if(Main.isAdmin) {
+            stageManager.switchScene(FxmlView.MENUADMIN);
+        }
     }
 
     //endregion
