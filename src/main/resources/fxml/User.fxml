@@ -171,7 +171,7 @@
             <Pane prefHeight="78.0" prefWidth="720.0" />
             <VBox prefHeight="100.0" prefWidth="83.0" spacing="4.0">
                <children>
-                  <Button fx:id="buttonExit" mnemonicParsing="false" onAction="#exit" prefHeight="28.0" prefWidth="80.0" styleClass="buttonRed" text="Salir" textFill="#fff9f9">
+                  <Button fx:id="buttonExit" mnemonicParsing="false" onAction="#exit" prefHeight="28.0" prefWidth="80.0" styleClass="buttonRed" text="Salir" textFill="#fff9f9" textOverrun="CLIP">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -184,7 +184,7 @@
                         <DropShadow blurType="ONE_PASS_BOX" color="#00000091" />
                      </effect>
                   </Button>
-                  <Button fx:id="buttonMenu" mnemonicParsing="false" onAction="#goBackToMenu" prefHeight="28.0" prefWidth="80.0" styleClass="btnGreen" text="Menu" textFill="#fff9f9">
+                  <Button fx:id="buttonMenu" mnemonicParsing="false" onAction="#goBackToMenu" prefHeight="28.0" prefWidth="80.0" styleClass="btnGreen" text="Menu" textFill="#fff9f9" textOverrun="CLIP">
                      <font>
                         <Font size="14.0" />
                      </font>
