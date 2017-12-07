@@ -19,12 +19,12 @@ import javax.persistence.Table;
 @EqualsAndHashCode
 @ToString
 @Entity
-@Table(name = "tematica")
+@Table(name = "topic")
 public class Topic {
 
     @Setter
     @Getter
-    private String nombre;
+    private String name;
 
     @Setter
     @Getter

@@ -2,7 +2,6 @@ package com.pelotero.mp.service.impl;
 
 import com.pelotero.mp.bean.Topic;
 import com.pelotero.mp.repository.TopicRepository;
-import com.pelotero.mp.repository.UserRepository;
 import com.pelotero.mp.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class TopicServiceImpl implements TopicService {
     }
 
     public Topic find(Long id){
-        return topicRepository.findOne(id);
+        return topicRepository.findById(id);
     }
 
     public List<Topic> findAll() {
