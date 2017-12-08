@@ -3,7 +3,9 @@ package com.pelotero.mp.controller;
 import com.pelotero.mp.Main;
 import com.pelotero.mp.bean.Topic;
 import com.pelotero.mp.config.StageManager;
+import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.helper.AlertHelper;
+import com.pelotero.mp.helper.GraphicsHelper;
 import com.pelotero.mp.service.TopicService;
 import com.pelotero.mp.view.FxmlView;
 import javafx.application.Platform;
@@ -27,6 +29,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
+import org.aspectj.apache.bcel.classfile.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -118,7 +121,7 @@ public class TopicsController implements Initializable {
                 {
                     return   new TableCell<Topic, Boolean>()
                     {
-                        Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                        Image imageEdit = new Image(getClass().getResourceAsStream(Constants.EDIT_BUTTON_URL));
                         final Button btnEdit = new Button();
 
                         @Override
@@ -137,12 +140,7 @@ public class TopicsController implements Initializable {
                                 });
 
                                 btnEdit.setStyle("-fx-background-color: transparent;");
-                                ImageView iv = new ImageView();
-                                iv.setImage(imgEdit);
-                                iv.setPreserveRatio(true);
-                                iv.setSmooth(true);
-                                iv.setCache(true);
-                                btnEdit.setGraphic(iv);
+                                btnEdit.setGraphic(GraphicsHelper.fixEditImage(imageEdit));
 
                                 setGraphic(btnEdit);
                                 setAlignment(Pos.CENTER);
@@ -166,7 +164,6 @@ public class TopicsController implements Initializable {
     private void loadTopicDetails(){
         topicList.clear();
         topicList.addAll(topicService.findAll());
-
         topicTable.setItems(topicList);
     }
 
@@ -215,12 +212,7 @@ public class TopicsController implements Initializable {
     @FXML
     private void delete(ActionEvent event){
         List<Topic> topics = topicTable.getSelectionModel().getSelectedItems();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete selected?");
-        Optional<ButtonType> action = alert.showAndWait();
-        if(action.get() == ButtonType.OK) topicService.deleteInBatch(topics);
+        if(AlertHelper.deleteAlert()) topicService.deleteInBatch(topics);
 
         loadTopicDetails();
     }

@@ -2,6 +2,81 @@
 
 Sistema Universitario para la Cátedra "Metodología de sistemas"
 
+##Escenario
+
+Se debe desarrollar el sistema para registrar las operaciones que se realizan en el complejo infantil Travesuras
+Infantiles ubicado en la ciudad de Resistencia que se dedica a la organización de eventos infantiles. Se cuenta con la
+siguiente información:
+
+1. Las fiestas que se ofrecen son de tipo temática. Hay un listado de temas disponible para los clientes.
+2. Hay tres combos propuestos:
+    - Combo 1: $ 10000
+        - Torta de 3 kilos
+        - Decoración
+        - Invitaciones
+        - Bebida
+        - Comida: golosinas, galletas y chizitos
+        - Pelotero
+        - Piñata
+    - Combo 2:$ 15000
+        - Torta de 3 kilos
+        - Decoración
+        - Invitaciones
+        - Bebida
+        - Comida: golosinas, galletas chizitos y panchitos
+        - 2 Peloteros
+        - Mesa dulce
+        - Animador
+        - Piñata
+    - Combo 3:$ 20000
+        - Torta de 3 kilos
+        - Decoración
+        - Invitaciones
+        - Bebida
+        - Comida: golosinas, galletas ,chizitos, panchitos y pizzetas.
+        - 2 Peloteros
+        - Animador
+        - Títeres
+        - Magia
+        - Mesa Dulce
+        - Piñata
+        - Bolsitas
+3. Cualquier combo es para 15 invitados infantiles. En caso de ser  más niños infantiles se cobra $ 100 por cada uno que
+se agrega.
+4. En el caso del servicio para de catering para adultos este debe ser provisto por la empresa o por los padres. En el
+caso de ser provisto lo los padres, las bebidas se deben adquirir en el local. En caso contrario la empresa cuenta con
+servicio de bar. El salón tiene capacidad para 20 adultos.
+5. La duración de cada fiesta es de 3 horas, por día se pueden pedir hasta dos turnos, uno a las 14.00 hs y otro a
+partir de las 18.00 hs.
+6. Para  hacer una reserva se debe realizar un pago del 10% del combo seleccionado. En caso de cancelación no hay
+reembolso. El pago completo del servicio debe hacerse  hasta 72 hs.  hasta las 17.00 hs.antes del evento en caso de no
+hacerlo se produce la cancelación automática del servicio.
+7. Las reservas se pueden hacer hasta 30 días antes como máximo.
+8. El servicio de video y fotografía es opcional:
+    - Servicio de foto:$ 1000
+    - Servicio de Video: $ 1500
+    - Servicio de Video y Foto: $ 2000
+9. Los pagos se pueden realizar en efectivo, tarjeta de crédito o débito.
+10. Al final del día la encargada de Administración debe entregar al dueño:
+11. Listado de reservas.
+12. Listado de servicios para el día siguiente.
+13. Total de ingresos, por servicio y detallar los ítems por servicio.
+14. Stock del bar.
+
+El sistema deberá:
+- Verificar el ingreso del responsable al sistema (permisos, considerar un administrador y un usuario común).
+- Listado de clientes.
+- Listado de reservas por clientes.
+- Listado de espera de los clientes.
+- Búsqueda de un servicio y listar los clientes de ese servicio por fecha o rango de fecha.
+- Total de servicios realizados en un período de tiempo determinado, discriminado por tipo de servicio.
+- Total recaudado en un período de tiempo determinado, discriminado por tipo de pago.
+- Total recaudado por servicio en un período de tiempo determinado.
+- Emisión de factura por servicio.
+- Emisión de datos del servicio contratado.
+- Emisión de reserva con las condiciones impresas.
+
+
 _**Lista de Requerimientos Funcionales:**_
 
 _**Usuarios:**_

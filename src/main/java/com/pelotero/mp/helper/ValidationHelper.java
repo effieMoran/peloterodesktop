@@ -34,12 +34,12 @@ public class  ValidationHelper {
 
     public static void validationAlert(String field, boolean empty){
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Validation Error");
+        alert.setTitle("Error de validación");
         alert.setHeaderText(null);
-        if(field.equals("Role")) alert.setContentText("Please Select "+ field);
+        if(field.equals("Rol")) alert.setContentText("Por favor seleccione "+ field);
         else{
-            if(empty) alert.setContentText("Please Enter "+ field);
-            else alert.setContentText("Please Enter Valid "+ field);
+            if(empty) alert.setContentText("Por favor ingrese "+ field);
+            else alert.setContentText("Por favor ingrese "+ field);
         }
         alert.showAndWait();
     }

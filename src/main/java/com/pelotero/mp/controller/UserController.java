@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.pelotero.mp.Main;
 import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.helper.AlertHelper;
+import com.pelotero.mp.helper.GraphicsHelper;
 import com.pelotero.mp.helper.ValidationHelper;
 import javafx.scene.control.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -251,7 +251,7 @@ public class UserController implements Initializable {
         {
             return   new TableCell<User, Boolean>()
             {
-                Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                Image imageEdit = new Image(getClass().getResourceAsStream(Constants.EDIT_BUTTON_URL));
                 final Button btnEdit = new Button();
 
                 @Override
@@ -270,12 +270,7 @@ public class UserController implements Initializable {
                         });
 
                         btnEdit.setStyle("-fx-background-color: transparent;");
-                        ImageView iv = new ImageView();
-                        iv.setImage(imgEdit);
-                        iv.setPreserveRatio(true);
-                        iv.setSmooth(true);
-                        iv.setCache(true);
-                        btnEdit.setGraphic(iv);
+                        btnEdit.setGraphic(GraphicsHelper.fixEditImage(imageEdit));
 
                         setGraphic(btnEdit);
                         setAlignment(Pos.CENTER);
