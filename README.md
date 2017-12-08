@@ -2,7 +2,7 @@
 
 Sistema Universitario para la Cátedra "Metodología de sistemas"
 
-Lista de Requerimientos Funcionales:
+_**Lista de Requerimientos Funcionales:**_
 
 _**Usuarios:**_
 
@@ -31,10 +31,10 @@ _**Bar:**_
 
 _**Temática:**_
 
-- [ ] El sistema debe permitir la carga de nuevas temáticas.
-- [ ] El sistema debe permitir la eliminación de temáticas.
-- [ ] El sistema debe permitir la modificación de temáticas existentes.
-- [ ] El sistema debe permitir listar las distintas temáticas disponibles.
+- [x] El sistema debe permitir la carga de nuevas temáticas.
+- [x] El sistema debe permitir la eliminación de temáticas.
+- [x] El sistema debe permitir la modificación de temáticas existentes.
+- [x] El sistema debe permitir listar las distintas temáticas disponibles.
 
 _**Servicios:**_
 
@@ -93,7 +93,7 @@ _**Reservas:**_
 - [ ] El sistema debe permitir la cancelación de la reserva hasta 3 días antes como máximo.
 - [ ] El sistema debe advertir que el costo al superar los 20 invitados, es de 100$ por cada invitado extra.
 
-Lista de Requerimientos no Funcionales:
+_**Lista de Requerimientos no Funcionales:**_
 
 - [ ] El sistema debe proporcionar mensajes de error que sean informativos y orientados a usuario final.
 - [x] El sistema debe asegurar que los datos estén protegidos del acceso no autorizado.
