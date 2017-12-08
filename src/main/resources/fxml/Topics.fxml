@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="1000.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pelotero.mp.controller.TopicsController">
+<BorderPane prefHeight="600.0" prefWidth="1000.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pelotero.mp.controller.TopicsController">
     <left>
         <VBox prefHeight="571.0" prefWidth="306.0" spacing="10.0" styleClass="background" stylesheets="@../styles/Styles.css" BorderPane.alignment="CENTER">
             <children>
@@ -96,12 +96,12 @@
         <VBox alignment="TOP_RIGHT" prefHeight="571.0" prefWidth="692.0" BorderPane.alignment="CENTER">
             <children>
                 <HBox alignment="TOP_RIGHT" prefHeight="4.0" prefWidth="694.0" />
-                <TableView fx:id="userTable" prefHeight="491.0" prefWidth="698.0" tableMenuButtonVisible="true">
+                <TableView fx:id="topicTable" prefHeight="491.0" prefWidth="698.0" tableMenuButtonVisible="true">
                     <columns>
-                        <TableColumn fx:id="topicId" maxWidth="700.0" text="ID" />
+                        <TableColumn fx:id="columnTopicId" maxWidth="700.0" text="ID" />
                         <TableColumn fx:id="columnName" maxWidth="4000.0" prefWidth="100.0" text="Nombre" />
                         <TableColumn fx:id="columnDescription" maxWidth="4000.0" prefWidth="233.0" text="Descripción" />
-                        <TableColumn fx:id="colEdit" maxWidth="1000.0" prefWidth="115.0" text="Edit" />
+                        <TableColumn fx:id="columnEdit" maxWidth="1000.0" prefWidth="115.0" text="Edit" />
                     </columns>
                     <VBox.margin>
                         <Insets left="10.0" right="5.0" />

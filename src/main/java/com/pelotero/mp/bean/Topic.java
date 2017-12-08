@@ -34,6 +34,6 @@ public class Topic {
     @Getter
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "tematica_id")
-    private int id;
+    @Column(name = "id", updatable = false, nullable = false)
+    private long id;
 }

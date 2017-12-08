@@ -31,10 +31,10 @@ _**Bar:**_
 
 _**Temática:**_
 
-- [ ] El sistema debe permitir la carga de nuevas temáticas.
-- [ ] El sistema debe permitir la eliminación de temáticas.
-- [ ] El sistema debe permitir la modificación de temáticas existentes.
-- [ ] El sistema debe permitir listar las distintas temáticas disponibles.
+- [x] El sistema debe permitir la carga de nuevas temáticas.
+- [x] El sistema debe permitir la eliminación de temáticas.
+- [x] El sistema debe permitir la modificación de temáticas existentes.
+- [x] El sistema debe permitir listar las distintas temáticas disponibles.
 
 _**Servicios:**_
 

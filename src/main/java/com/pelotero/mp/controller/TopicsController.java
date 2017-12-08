@@ -2,11 +2,8 @@ package com.pelotero.mp.controller;
 
 import com.pelotero.mp.Main;
 import com.pelotero.mp.bean.Topic;
-import com.pelotero.mp.bean.User;
 import com.pelotero.mp.config.StageManager;
-import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.helper.AlertHelper;
-import com.pelotero.mp.helper.ValidationHelper;
 import com.pelotero.mp.service.TopicService;
 import com.pelotero.mp.view.FxmlView;
 import javafx.application.Platform;
@@ -14,37 +11,50 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 @Controller
-public class TopicsController {
+public class TopicsController implements Initializable {
     @FXML
     public Label labelTopicId;
-    @FXML
-    public TableColumn topicId;
     @FXML
     public Button reset;
     @FXML
     public Button saveUser;
     @FXML
-    public TableView  topicTable;
+    public TableView<Topic>  topicTable;
     @FXML
-    public TableColumn columnEdit;
+    private TableColumn<Topic, Long> columnTopicId;
+    @FXML
+    private TableColumn<Topic, String> columnName;
+    @FXML
+    private TableColumn<Topic, String> columnDescription;
+    @FXML
+    public TableColumn<Topic, Boolean> columnEdit;
     @FXML
     public MenuItem delete;
     @FXML
@@ -86,6 +96,68 @@ public class TopicsController {
     }
 
     //endregion
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        topicTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        setColumnProperties();
+        loadTopicDetails();
+    }
+
+    private void setColumnProperties(){
+        columnTopicId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        columnEdit.setCellFactory(cellFactory);
+    }
+
+    Callback<TableColumn<Topic, Boolean>, TableCell<Topic, Boolean>> cellFactory =
+            new Callback<TableColumn<Topic, Boolean>, TableCell<Topic, Boolean>>()
+            {
+                @Override
+                public TableCell<Topic, Boolean> call( final TableColumn<Topic, Boolean> param)
+                {
+                    return   new TableCell<Topic, Boolean>()
+                    {
+                        Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                        final Button btnEdit = new Button();
+
+                        @Override
+                        public void updateItem(Boolean check, boolean empty)
+                        {
+                            super.updateItem(check, empty);
+                            if(empty)
+                            {
+                                setGraphic(null);
+                                setText(null);
+                            }
+                            else{
+                                btnEdit.setOnAction(e ->{
+                                    Topic topic = getTableView().getItems().get(getIndex());
+                                    updateTopic(topic);
+                                });
+
+                                btnEdit.setStyle("-fx-background-color: transparent;");
+                                ImageView iv = new ImageView();
+                                iv.setImage(imgEdit);
+                                iv.setPreserveRatio(true);
+                                iv.setSmooth(true);
+                                iv.setCache(true);
+                                btnEdit.setGraphic(iv);
+
+                                setGraphic(btnEdit);
+                                setAlignment(Pos.CENTER);
+                                setText(null);
+                            }
+                        }
+
+                        private void updateTopic(Topic topic) {
+                            labelTopicId.setText(Long.toString(topic.getId()));
+                            name.setText(topic.getName());
+                            description.setText(topic.getDescription());
+                        }
+                    };
+                }
+            };
 
     //region INITIALIZE
 
@@ -126,11 +198,13 @@ public class TopicsController {
                         " con ID "+ topic.getId());
             }
         }else{
-            Topic topic = topicService.find(Long.parseLong(topicId.getText()));
+            Topic topic = topicService.find(Long.parseLong(labelTopicId.getText()));
             setTopicFields(topic);
             topicService.update(topic);
             AlertHelper.updateAlert("Temática", topic.getName());
         }
+        clearFields();
+        loadTopicDetails();
     }
 
     private void setTopicFields(Topic topic) {
@@ -154,6 +228,7 @@ public class TopicsController {
     //endregion
 
     private void clearFields() {
+        labelTopicId.setText(null);
         name.clear();
         description.clear();
     }

@@ -140,12 +140,14 @@ public class UserController implements Initializable {
 
                     User user = new User();
                     setUserFields(user);
+                    user =userService.save(user);
                     AlertHelper.saveAlert("Usuario", "el usuario "+user.getFirstName()
                             +" "+user.getLastName() +" y su ID es \n" + user.getId());
                 }
             }else{
                 User user = userService.find(Long.parseLong(userId.getText()));
                 setUserFields(user);
+                user = userService.update(user);
                 AlertHelper.updateAlert("Usuario", user.getFirstName() + " " + user.getLastName());
             }
 
