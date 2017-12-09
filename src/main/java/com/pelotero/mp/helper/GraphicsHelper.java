@@ -1,14 +1,17 @@
 package com.pelotero.mp.helper;
 
+import com.pelotero.mp.constants.Constants;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 
 /**
  * Created by Eli on 8/12/2017.
  */
 public class GraphicsHelper {
 
-    public static ImageView fixEditImage(Image imageEdit){
+    public static ImageView fixEditImage(Class<?> objectClass){
+        Image imageEdit = new Image(objectClass.getResourceAsStream(Constants.EDIT_BUTTON_URL));
         ImageView iv = new ImageView();
         iv.setImage(imageEdit);
         iv.setPreserveRatio(true);
@@ -16,4 +19,5 @@ public class GraphicsHelper {
         iv.setCache(true);
         return iv;
     }
+
 }

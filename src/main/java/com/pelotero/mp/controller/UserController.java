@@ -251,15 +251,15 @@ public class UserController implements Initializable {
         {
             return   new TableCell<User, Boolean>()
             {
-                Image imageEdit = new Image(getClass().getResourceAsStream(Constants.EDIT_BUTTON_URL));
-                final Button btnEdit = new Button();
-
                 @Override
                 public void updateItem(Boolean check, boolean empty)
                 {
+                    final Button btnEdit = new Button();
+
                     super.updateItem(check, empty);
                     if(empty)
                     {
+                        setGraphic(null);
                         setGraphic(null);
                         setText(null);
                     }
@@ -269,8 +269,8 @@ public class UserController implements Initializable {
                             updateUser(user);
                         });
 
-                        btnEdit.setStyle("-fx-background-color: transparent;");
-                        btnEdit.setGraphic(GraphicsHelper.fixEditImage(imageEdit));
+                        btnEdit.setStyle(Constants.TRANSPARENT_BACKGROUND);
+                        btnEdit.setGraphic(GraphicsHelper.fixEditImage(getClass()));
 
                         setGraphic(btnEdit);
                         setAlignment(Pos.CENTER);

@@ -1,6 +1,13 @@
 package com.pelotero.mp.bean;
 
-import lombok.*;
+
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,6 +24,8 @@ import java.util.Set;
 public class Combo {
 
     @Id
+    @Getter
+    @Setter
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private long id;
@@ -24,6 +33,11 @@ public class Combo {
     @Getter
     @Setter
     private double price;
+
+    @Getter
+    @Setter
+    private String name;
+
 
     @Setter
     @Getter

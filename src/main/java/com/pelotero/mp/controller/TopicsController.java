@@ -121,7 +121,6 @@ public class TopicsController implements Initializable {
                 {
                     return   new TableCell<Topic, Boolean>()
                     {
-                        Image imageEdit = new Image(getClass().getResourceAsStream(Constants.EDIT_BUTTON_URL));
                         final Button btnEdit = new Button();
 
                         @Override
@@ -139,8 +138,8 @@ public class TopicsController implements Initializable {
                                     updateTopic(topic);
                                 });
 
-                                btnEdit.setStyle("-fx-background-color: transparent;");
-                                btnEdit.setGraphic(GraphicsHelper.fixEditImage(imageEdit));
+                                btnEdit.setStyle(Constants.TRANSPARENT_BACKGROUND);
+                                btnEdit.setGraphic(GraphicsHelper.fixEditImage(getClass()));
 
                                 setGraphic(btnEdit);
                                 setAlignment(Pos.CENTER);

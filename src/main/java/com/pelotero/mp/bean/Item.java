@@ -16,12 +16,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 @Entity
-@Table(name = "combo")
+@Table(name = "item")
 public class Item {
 
     @Id
+    @Getter
+    @Setter
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private long id;
@@ -29,4 +30,9 @@ public class Item {
     @Getter
     @Setter
     private String name;
+
+    @Override
+    public String toString() {
+        return  name;
+    }
 }

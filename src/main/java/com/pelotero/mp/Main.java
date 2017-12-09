@@ -43,7 +43,7 @@ public class Main extends Application {
      * window.
      */
     protected void displayInitialScene() {
-        stageManager.switchScene(FxmlView.TOPIC);
+        stageManager.switchScene(FxmlView.LOGIN);
     }
 
     

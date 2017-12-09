@@ -58,6 +58,17 @@ public enum FxmlView {
         public String getFxmlFile() {
             return "/fxml/Topics.fxml";
         }
+    },
+    COMBO {
+        @Override
+        public String getTitle() {
+            return getStringFromResourceBundle("combo.title");
+        }
+
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/Combo.fxml";
+        }
     };
     
     public abstract String getTitle();

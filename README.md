@@ -2,7 +2,7 @@
 
 Sistema Universitario para la Cátedra "Metodología de sistemas"
 
-##Escenario
+## Escenario
 
 Se debe desarrollar el sistema para registrar las operaciones que se realizan en el complejo infantil Travesuras
 Infantiles ubicado en la ciudad de Resistencia que se dedica a la organización de eventos infantiles. Se cuenta con la
