@@ -113,9 +113,9 @@ _**Temática:**_
 
 _**Servicios:**_
 
-- [ ] El sistema debe permitir la carga de nuevos servicios.
-- [ ] El sistema debe permitir la eliminación de servicios.
-- [ ] El sistema debe permitir la modificación de servicios existentes.
+- [x] El sistema debe permitir la carga de nuevos servicios.
+- [x] El sistema debe permitir la eliminación de servicios.
+- [x] El sistema debe permitir la modificación de servicios existentes.
 - [ ] El sistema debe listar los servicios contratados y permitir filtrar por cliente, tipo de servicio y rango de fecha.
 - [ ] El sistema debe permitir calcular y mostrar el total recaudado por tipo de servicio en un período de tiempo  determinado.
 
