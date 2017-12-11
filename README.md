@@ -146,7 +146,7 @@ _**Combos:**_
 
 - [x] El sistema debe permitir la carga de nuevos combos.
 - [ ] El sistema debe permitir la eliminación de combos.
-- [ ] El sistema debe permitir la modificación de combos existentes.
+- [x] El sistema debe permitir la modificación de combos existentes.
 - [x] El sistema debe permitir listar los distintos combos disponibles.
 
 _**Reservas:**_

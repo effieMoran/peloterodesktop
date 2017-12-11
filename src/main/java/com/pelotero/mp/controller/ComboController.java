@@ -189,7 +189,7 @@ public class ComboController implements Initializable {
                 {
                     return new TableCell<Combo, Boolean>()
                     {
-                        final MenuButton menuButton= new MenuButton();
+                        MenuButton menuButton= new MenuButton();
 
                         @Override
                         public void updateItem(Boolean check, boolean empty)
@@ -201,7 +201,7 @@ public class ComboController implements Initializable {
                                 setText(null);
                             }
                             else{
-                                //TODO: SEE HOW TO REMOVE ITEMS
+                                menuButton = new MenuButton();
                                 menuButton.setOnAction(e ->{
                                     /*
                                             Combo combo = getTableView().getItems().get(getIndex());
@@ -254,7 +254,9 @@ public class ComboController implements Initializable {
 
     @FXML
     void delete(ActionEvent event) {
-
+        List<Combo> combos = comboTable.getSelectionModel().getSelectedItems();
+        if(AlertHelper.deleteAlert()) comboService.deleteInBatch(combos);
+        loadComboDetails();
     }
 
     @FXML
@@ -269,6 +271,11 @@ public class ComboController implements Initializable {
 
     @FXML
     void reset(ActionEvent event) {
+        clearFields();
+    }
+
+    @FXML
+    void deleteItem(ActionEvent event) {
         clearFields();
     }
 

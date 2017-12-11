@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pelotero.mp.controller.ComboController">
+<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pelotero.mp.controller.ComboController">
     <left>
         <VBox prefHeight="500.0" prefWidth="316.0" spacing="5.0" styleClass="background" stylesheets="@../styles/Styles.css" BorderPane.alignment="CENTER">
             <children>
@@ -79,27 +79,28 @@
             </HBox>
             <HBox alignment="CENTER" layoutX="40.0" layoutY="95.0" prefHeight="30.0" prefWidth="265.0" spacing="50.0">
                <children>
-                  <Label prefHeight="21.0" prefWidth="92.0" text="Disponibles" textFill="#f8f7f7" />
-                  <Label fx:id="labelComboId1" alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Seleccionados" textFill="#f8f7f7">
+                  <Label fx:id="labelComboId1" alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Items Seleccionados" textFill="#f8f7f7">
                      <HBox.margin>
                         <Insets left="25.0" />
                      </HBox.margin>
                   </Label>
                </children>
             </HBox>
-                <HBox prefHeight="150.0" prefWidth="200.0">
+                <HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <ListView fx:id="availableItems" prefHeight="100.0" prefWidth="131.0" />
                   <VBox alignment="TOP_CENTER" prefHeight="140.0" prefWidth="54.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="buttonAddItem" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selecItem" text=" &gt; " />
-                        <Button fx:id="buttonRemoveItem" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#unselectItem" text=" &lt; " />
-                     </children>
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
                   </VBox>
-                  <ListView fx:id="selectedItems" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="131.0" />
+                  <ListView fx:id="selectedItems" layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="140.0">
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem fx:id="itemMenu" mnemonicParsing="false" onAction="#deleteItem" text="Borrar Item" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu></ListView>
                </children></HBox>
                 <HBox alignment="BOTTOM_RIGHT" prefHeight="45.0" prefWidth="196.0" spacing="10.0">
                     <children>
