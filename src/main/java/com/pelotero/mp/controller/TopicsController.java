@@ -28,7 +28,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
+import jfxtras.scene.menu.CornerMenu;
 import org.aspectj.apache.bcel.classfile.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -42,6 +44,11 @@ import java.util.ResourceBundle;
 
 @Controller
 public class TopicsController implements Initializable {
+    @FXML
+    BorderPane borderPane;
+    CornerMenu cornerMenu;
+    @Autowired
+    private CustomMenuController customMenu;
     @FXML
     public Label labelTopicId;
     @FXML
@@ -93,7 +100,7 @@ public class TopicsController implements Initializable {
 
     @FXML
     private void goBackToMenu(ActionEvent event) throws IOException {
-        if(Main.isAdmin) {
+        if(Main.isAdmin()) {
             stageManager.switchScene(FxmlView.MENUADMIN);
         }
     }
@@ -104,6 +111,10 @@ public class TopicsController implements Initializable {
         topicTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnProperties();
         loadTopicDetails();
+        cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, this.borderPane, true)
+                .withAnimationInterpolation(null)
+                .withAutoShowAndHide(true);
+        cornerMenu.getItems().addAll(customMenu.addMenuItems());
     }
 
     private void setColumnProperties(){

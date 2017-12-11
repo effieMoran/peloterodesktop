@@ -12,6 +12,8 @@ import com.pelotero.mp.helper.AlertHelper;
 import com.pelotero.mp.helper.GraphicsHelper;
 import com.pelotero.mp.helper.ValidationHelper;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import jfxtras.scene.menu.CornerMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,13 @@ import javafx.util.Callback;
 @Controller
 public class UserController implements Initializable {
 
+    @FXML
+    BorderPane borderPane;
+
+    CornerMenu cornerMenu;
+
+    @Autowired
+    private CustomMenuController customMenu;
     //region FXML_CONTROLS
     @FXML
     private Button btnLogout;
@@ -114,7 +123,7 @@ public class UserController implements Initializable {
 
     @FXML
     private void goBackToMenu(ActionEvent event) throws IOException {
-        if(Main.isAdmin) {
+        if(Main.isAdmin()) {
             stageManager.switchScene(FxmlView.MENUADMIN);
         }
     }
@@ -227,6 +236,10 @@ public class UserController implements Initializable {
 
         // Add all users into table
         loadUserDetails();
+        cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, this.borderPane, true)
+                .withAnimationInterpolation(null)
+                .withAutoShowAndHide(true);
+        cornerMenu.getItems().addAll(customMenu.addMenuItems());
     }
 
     /*

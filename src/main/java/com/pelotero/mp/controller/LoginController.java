@@ -45,8 +45,8 @@ public class LoginController implements Initializable{
 	@FXML
     private void login(ActionEvent event) throws IOException{
     	if(userService.authenticate(getUsername(), getPassword())){
-    		Main.isAdmin = userService.isAdmin(getUsername());
-    		if(Main.isAdmin) {
+    		Main.setAdmin( userService.isAdmin(getUsername()));
+    		if(Main.isAdmin()) {
 				stageManager.switchScene(FxmlView.MENUADMIN);
 			}
     	}else{

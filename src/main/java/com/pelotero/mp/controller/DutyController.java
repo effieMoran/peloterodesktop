@@ -24,7 +24,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
+import jfxtras.scene.menu.CornerMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -39,6 +41,13 @@ import java.util.ResourceBundle;
  */
 @Controller
 public class DutyController implements Initializable {
+    @FXML
+    BorderPane borderPane;
+
+    CornerMenu cornerMenu;
+
+    @Autowired
+    private CustomMenuController customMenu;
 
     @FXML
     private Button btnLogout;
@@ -104,7 +113,7 @@ public class DutyController implements Initializable {
 
     @FXML
     private void goBackToMenu(ActionEvent event) throws IOException {
-        if(Main.isAdmin) {
+        if(Main.isAdmin()) {
             stageManager.switchScene(FxmlView.MENUADMIN);
         }
     }
@@ -115,6 +124,10 @@ public class DutyController implements Initializable {
         dutyTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnProperties();
         loadTopicDetails();
+        cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, this.borderPane, true)
+                .withAnimationInterpolation(null)
+                .withAutoShowAndHide(true);
+        cornerMenu.getItems().addAll(customMenu.addMenuItems());
     }
 
     private void setColumnProperties(){

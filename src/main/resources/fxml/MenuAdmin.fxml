@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="backround" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pelotero.mp.controller.MenuAdminController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="backround" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pelotero.mp.controller.MenuAdminController">
    <top>
       <AnchorPane prefHeight="101.0" prefWidth="1000.0" styleClass="background" stylesheets="@../styles/Styles.css" BorderPane.alignment="CENTER">
          <children>
@@ -49,136 +48,4 @@
             </HBox>
          </children></AnchorPane>
    </top>
-   <center>
-      <HBox fx:id="hBox1" prefHeight="100.0" prefWidth="15.0" spacing="110.0" styleClass="background" stylesheets="@../styles/Styles.css" BorderPane.alignment="CENTER">
-         <children>
-            <VBox fx:id="vBox1" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Button fx:id="buttonUsers" mnemonicParsing="false" onAction="#goToUsersMenu">
-                     <graphic>
-                        <ImageView fx:id="imageViewUsers" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/icons/3d_group.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label fx:id="labelUsers" text="Usuarios" />
-                  <Button fx:id="buttonSuppliers" mnemonicParsing="false" onAction="#goToSuppliers">
-                     <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/icons/alliance.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label fx:id="labelSuppliers" text="Proveedores" />
-                  <Button fx:id="buttonReports" mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0">
-                     <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/icons/stats_area_chart.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label fx:id="labelReports" text="Reportes" />
-               </children>
-            </VBox>
-            <VBox fx:id="vBox3" alignment="CENTER" cache="true" cacheHint="SCALE" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Button fx:id="buttonCombo" mnemonicParsing="false" onAction="#goToCombos" prefHeight="150.0" prefWidth="150.0">
-                     <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/icons/fireworks.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label fx:id="labelCombos" text="Combos" />
-                  <Button fx:id="buttonTopic" mnemonicParsing="false" onAction="#goToTopics" prefHeight="150.0" prefWidth="150.0">
-                     <graphic>
-                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/icons/unicorn.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label fx:id="labelTopics" text="Tematicas" />
-                  <Button fx:id="buttonServices" mnemonicParsing="false" onAction="#goToServices" prefHeight="150.0" prefWidth="150.0">
-                     <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/icons/camera.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label fx:id="labelServices" text="Servicios" />
-               </children></VBox>
-            <VBox fx:id="vBox2" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Button fx:id="buttonProducts" mnemonicParsing="false">
-                     <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/icons/plastic_bottle.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label fx:id="labelProducts" text="Productos" />
-                  <Button fx:id="buttonParty" mnemonicParsing="false" onAction="#goToParties" prefHeight="150.0" prefWidth="150.0">
-                     <graphic>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" smooth="false">
-                           <image>
-                              <Image url="@../images/icons/gift.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label fx:id="labelParties" text="Fiesta" />
-                  <Button fx:id="buttonBookings" mnemonicParsing="false" onAction="#goToBookings">
-                     <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/icons/front_desk.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label fx:id="labelBookings" text="Reservas" />
-               </children></VBox>
-            <VBox fx:id="vBox4" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Button fx:id="buttonClients" mnemonicParsing="false" onAction="#goToClients" prefHeight="150.0" prefWidth="150.0">
-                     <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/icons/client_user.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label fx:id="labelClients" text="Clientes" />
-                  <Button fx:id="buttonPayments" mnemonicParsing="false" onAction="#goToPayments" prefHeight="150.0" prefWidth="150.0">
-                     <graphic>
-                        <ImageView fitHeight="130.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/icons/piggy-bank.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label fx:id="labelPayments" text="Pagos" />
-               </children></VBox>
-         </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-      </HBox>
-   </center>
 </BorderPane>

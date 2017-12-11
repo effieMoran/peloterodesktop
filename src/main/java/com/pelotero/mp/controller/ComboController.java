@@ -29,7 +29,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
+import jfxtras.scene.menu.CornerMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,13 @@ import java.util.ResourceBundle;
  */
 @Controller
 public class ComboController implements Initializable {
+    @FXML
+    BorderPane borderPane;
+
+    CornerMenu cornerMenu;
+
+    @Autowired
+    private CustomMenuController customMenu;
     @FXML
     private Button btnLogout;
     @FXML
@@ -106,12 +115,13 @@ public class ComboController implements Initializable {
     //region INIT
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        //cbRole.setItems(roles);
-
         comboTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         loadComboDetails();
         setColumnProperties();
+        cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, this.borderPane, true)
+                .withAnimationInterpolation(null)
+                .withAutoShowAndHide(true);
+        cornerMenu.getItems().addAll(customMenu.addMenuItems());
 
     }
 
@@ -197,8 +207,6 @@ public class ComboController implements Initializable {
 
     }
 
-
-
     @FXML
     void save(ActionEvent event) {
 
@@ -222,7 +230,7 @@ public class ComboController implements Initializable {
 
     @FXML
     private void goBackToMenu(ActionEvent event) throws IOException {
-        if(Main.isAdmin) {
+        if(Main.isAdmin()) {
             stageManager.switchScene(FxmlView.MENUADMIN);
         }
     }
