@@ -5,6 +5,7 @@ import com.pelotero.mp.bean.Combo;
 import com.pelotero.mp.bean.Item;
 import com.pelotero.mp.config.StageManager;
 import com.pelotero.mp.constants.Constants;
+import com.pelotero.mp.helper.AlertHelper;
 import com.pelotero.mp.helper.GraphicsHelper;
 import com.pelotero.mp.service.ComboService;
 import com.pelotero.mp.service.ItemService;
@@ -16,10 +17,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.AccessibleAction;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
@@ -27,8 +32,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import jfxtras.scene.menu.CornerMenu;
@@ -38,7 +41,6 @@ import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -99,7 +101,7 @@ public class ComboController implements Initializable {
     @FXML
     private TableColumn<Combo, Boolean> columnEdit;
     @FXML
-    private TableColumn<Combo, List<Item>> columnItems;
+    private TableColumn<Combo, Boolean> columnItems;
     @FXML
     private Button saveUser;
 
@@ -130,6 +132,7 @@ public class ComboController implements Initializable {
         columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
          //TODO: column items
+        columnItems.setCellFactory(cellFactoryItems);
         availableItems.setItems(itemList);
         columnEdit.setCellFactory(cellFactory);
     }
@@ -178,6 +181,74 @@ public class ComboController implements Initializable {
                 }
             };
 
+    Callback<TableColumn<Combo, Boolean>, TableCell<Combo, Boolean>> cellFactoryItems =
+            new Callback<TableColumn<Combo, Boolean>, TableCell<Combo, Boolean>>()
+            {
+                @Override
+                public TableCell<Combo, Boolean> call( final TableColumn<Combo, Boolean> param)
+                {
+                    return new TableCell<Combo, Boolean>()
+                    {
+                        final MenuButton menuButton= new MenuButton();
+
+                        @Override
+                        public void updateItem(Boolean check, boolean empty)
+                        {
+                            super.updateItem(check, empty);
+                            if(empty)
+                            {
+                                setGraphic(null);
+                                setText(null);
+                            }
+                            else{
+                                //TODO: SEE HOW TO REMOVE ITEMS
+                                menuButton.setOnAction(e ->{
+                                            Combo combo = getTableView().getItems().get(getIndex());
+
+                                            List<MenuItem> menuItems = menuButton.getItems();
+                                            Iterator<MenuItem> menuItemIterator = menuItems.iterator();
+                                            while (menuItemIterator.hasNext()){
+                                                MenuItem itemForDelete = menuItemIterator.next();
+                                                ContextMenu contextMenu = new ContextMenu();
+                                                MenuItem deleteItem = new MenuItem("Borrar");
+                                                contextMenu.getItems().add(deleteItem);
+                                                deleteItem.setOnAction( a ->{
+                                                    if(AlertHelper.deleteAlert()){
+                                                        menuItems.remove(itemForDelete);
+                                                        List<Item> itemsInCombo =combo.getItems();
+
+                                                    }
+                                                });
+                                                contextMenu.getItems().add(deleteItem);
+                                            }
+
+                                }
+                                //setGraphic()
+                                );
+
+                                Combo combo = getTableView().getItems().get(getIndex());
+                                List<Item> comboItemList = combo.getItems();
+                                Iterator<Item> it = comboItemList.iterator();
+                                while (it.hasNext()){
+
+                                    MenuItem menuItem = new MenuItem(it.next().toString());
+
+                                    menuButton.getItems().add(menuItem);
+                                }
+                                //setItem(splitMenuButton);
+
+                                setAlignment(Pos.CENTER);
+                                menuButton.setText("Contenido");
+                                setGraphic(menuButton);
+
+                            }
+
+                        }
+
+
+                    };
+                }
+            };
 
     private void loadComboDetails() {
         comboList.clear();
@@ -187,6 +258,7 @@ public class ComboController implements Initializable {
     }
 
     //enregion
+
     @FXML
     void delete(ActionEvent event) {
 

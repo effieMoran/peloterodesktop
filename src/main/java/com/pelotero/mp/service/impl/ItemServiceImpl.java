@@ -51,4 +51,8 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> findAll() {
         return itemRepository.findAll();
     }
+
+    public Item findByName(String name){
+        return itemRepository.findByName(name);
+    }
 }

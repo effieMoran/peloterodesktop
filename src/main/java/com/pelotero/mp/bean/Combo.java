@@ -10,7 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by Eli on 8/12/2017.
@@ -41,7 +41,7 @@ public class Combo {
 
     @Setter
     @Getter
-    @OneToMany(fetch= FetchType.EAGER, cascade = CascadeType.MERGE )
+    @ManyToMany(fetch= FetchType.EAGER, cascade = CascadeType.MERGE )
     @ElementCollection(targetClass=Item.class)
-    private Set<Item> items;
+    private List<Item> items;
 }
