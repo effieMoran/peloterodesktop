@@ -7,6 +7,7 @@ import com.pelotero.mp.config.StageManager;
 import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.helper.AlertHelper;
 import com.pelotero.mp.helper.GraphicsHelper;
+import com.pelotero.mp.helper.ValidationHelper;
 import com.pelotero.mp.service.ComboService;
 import com.pelotero.mp.service.ItemService;
 import com.pelotero.mp.view.FxmlView;
@@ -176,7 +177,6 @@ public class ComboController implements Initializable {
                             comboName.setText(combo.getName());
                             comboPrice.setText(String.valueOf(combo.getPrice()));
                         }
-
                     };
                 }
             };
@@ -203,6 +203,7 @@ public class ComboController implements Initializable {
                             else{
                                 //TODO: SEE HOW TO REMOVE ITEMS
                                 menuButton.setOnAction(e ->{
+                                    /*
                                             Combo combo = getTableView().getItems().get(getIndex());
 
                                             List<MenuItem> menuItems = menuButton.getItems();
@@ -221,31 +222,23 @@ public class ComboController implements Initializable {
                                                 });
                                                 contextMenu.getItems().add(deleteItem);
                                             }
-
+                                    */
                                 }
-                                //setGraphic()
                                 );
 
                                 Combo combo = getTableView().getItems().get(getIndex());
                                 List<Item> comboItemList = combo.getItems();
                                 Iterator<Item> it = comboItemList.iterator();
                                 while (it.hasNext()){
-
+                                    //TODO: CHECK FOR DUPLICATES
                                     MenuItem menuItem = new MenuItem(it.next().toString());
-
                                     menuButton.getItems().add(menuItem);
                                 }
-                                //setItem(splitMenuButton);
-
                                 setAlignment(Pos.CENTER);
                                 menuButton.setText("Contenido");
                                 setGraphic(menuButton);
-
                             }
-
                         }
-
-
                     };
                 }
             };
@@ -276,14 +269,44 @@ public class ComboController implements Initializable {
 
     @FXML
     void reset(ActionEvent event) {
-
+        clearFields();
     }
 
     @FXML
     void save(ActionEvent event) {
+        if(labelComboId.getText() == null || "".equals(labelComboId.getText())){
 
+                Combo combo = new Combo();
+                setComboFields(combo);
+                combo =comboService.save(combo);
+                //TODO: Mejorar alerts
+                AlertHelper.saveAlert("Combo", "El combo "+combo.getName());
+
+        }else{
+            Combo combo = comboService.find(Long.parseLong(labelComboId.getText()));
+            setComboFields(combo);
+            combo = comboService.update(combo);
+            AlertHelper.updateAlert("Usuario", combo.getName() + " " + combo.getPrice());
+        }
+
+        clearFields();
+        loadComboDetails();
+    }
+    String getName(){
+        return comboName.getText();
+    }
+    private void setComboFields(Combo combo) {
+
+        combo.setName(comboName.getText());
+        combo.setPrice(Double.valueOf(comboPrice.getText()));
+        //TODO: SET ITEMS LIST
     }
 
+    private void clearFields() {
+        labelComboId.setText(null);
+        comboName.clear();
+        comboPrice.clear();
+    }
     //region ACTIONS
 
     @Lazy

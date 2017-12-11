@@ -144,10 +144,10 @@ _**Pagos:**_
 
 _**Combos:**_
 
-- [ ] El sistema debe permitir la carga de nuevos combos.
+- [x] El sistema debe permitir la carga de nuevos combos.
 - [ ] El sistema debe permitir la eliminación de combos.
 - [ ] El sistema debe permitir la modificación de combos existentes.
-- [ ] El sistema debe permitir listar los distintos combos disponibles.
+- [x] El sistema debe permitir listar los distintos combos disponibles.
 
 _**Reservas:**_
 
