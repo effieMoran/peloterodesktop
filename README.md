@@ -121,10 +121,10 @@ _**Servicios:**_
 
 _**Clientes:**_
 
-- [ ] El sistema debe permitir la carga de nuevos clientes.
-- [ ] El sistema debe permitir la modificación de un cliente.
-- [ ] El sistema debe permitir la eliminación de un cliente.
-- [ ] El sistema debe mostrar un listado de clientes y permitir filtrarlos.
+- [x] El sistema debe permitir la carga de nuevos clientes.
+- [x] El sistema debe permitir la modificación de un cliente.
+- [x] El sistema debe permitir la eliminación de un cliente.
+- [x] El sistema debe mostrar un listado de clientes y permitir filtrarlos.
 - [ ] El sistema debe permitir el guardado de una tarjeta de  crédito para un cliente.
 
 _**Pagos:**_

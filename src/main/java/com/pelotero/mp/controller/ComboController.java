@@ -125,7 +125,6 @@ public class ComboController implements Initializable {
                 .withAnimationInterpolation(null)
                 .withAutoShowAndHide(true);
         cornerMenu.getItems().addAll(customMenu.addMenuItems());
-
     }
 
     private  void setColumnProperties() {
@@ -134,7 +133,6 @@ public class ComboController implements Initializable {
         columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
          //TODO: column items
         columnItems.setCellFactory(cellFactoryItems);
-        availableItems.setItems(itemList);
         columnEdit.setCellFactory(cellFactory);
     }
 

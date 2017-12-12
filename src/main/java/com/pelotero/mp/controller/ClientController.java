@@ -1,8 +1,13 @@
 package com.pelotero.mp.controller;
 
-import com.pelotero.mp.bean.User;
+import com.pelotero.mp.Main;
+import com.pelotero.mp.bean.Client;
 import com.pelotero.mp.config.StageManager;
-import com.pelotero.mp.service.UserService;
+import com.pelotero.mp.constants.Constants;
+import com.pelotero.mp.helper.AlertHelper;
+import com.pelotero.mp.helper.GraphicsHelper;
+import com.pelotero.mp.helper.ValidationHelper;
+import com.pelotero.mp.service.ClientService;
 import com.pelotero.mp.view.FxmlView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -11,14 +16,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
@@ -28,8 +30,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
+import jfxtras.scene.menu.CornerMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -38,19 +41,37 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 public class ClientController implements Initializable {
 
-    @FXML
-    private Button btnLogout;
+    @Lazy
+    @Autowired
+    private StageManager stageManager;
 
     @FXML
-    private Label userId;
+    BorderPane borderPane;
+
+    CornerMenu cornerMenu;
+
+    @Autowired
+    private CustomMenuController customMenu;
+
+    @FXML
+    Button buttonExit;
+
+    @FXML
+    Button btnLogout;
+
+    @FXML
+    Button buttonMenu;
+
+    @FXML
+    MenuItem deleteUsers;
+
+    @FXML
+    private Label clientId;
 
     @FXML
     private TextField firstName;
@@ -71,13 +92,19 @@ public class ClientController implements Initializable {
     private RadioButton rbFemale;
 
     @FXML
-    private ComboBox<String> cbRole;
-
-    @FXML
     private TextField email;
 
     @FXML
-    private PasswordField password;
+    private TextField phoneNumber;
+
+    @FXML
+    private TextField cellPhoneNumber;
+
+    @FXML
+    private TextField adress;
+
+    @FXML
+    private TextField cuil;
 
     @FXML
     private Button reset;
@@ -86,44 +113,36 @@ public class ClientController implements Initializable {
     private Button saveUser;
 
     @FXML
-    private TableView<User> userTable;
+    private TableView<Client> clientTable;
 
     @FXML
-    private TableColumn<User, Long> colUserId;
-
+    private TableColumn<Client, Long> colUserId;
     @FXML
-    private TableColumn<User, String> colFirstName;
-
+    private TableColumn<Client, String> colFirstName;
     @FXML
-    private TableColumn<User, String> colLastName;
-
+    private TableColumn<Client, String> colLastName;
     @FXML
-    private TableColumn<User, LocalDate> colDOB;
-
+    private TableColumn<Client, LocalDate> colDOB;
     @FXML
-    private TableColumn<User, String> colGender;
-
+    private TableColumn<Client, String> colGender;
     @FXML
-    private TableColumn<User, String> colRole;
-
+    private TableColumn<Client, String> colEmail;
     @FXML
-    private TableColumn<User, String> colEmail;
-
+    private TableColumn<Client, Boolean> colEdit;
     @FXML
-    private TableColumn<User, Boolean> colEdit;
-
+    private TableColumn<Client, String> columnAdress;
     @FXML
-    private MenuItem deleteUsers;
+    private TableColumn<Client, String> columnCuil;
+    @FXML
+    private TableColumn<Client, String> columnPhone;
+    @FXML
+    private TableColumn<Client, String> columnCellPhone;
 
-    @Lazy
-    @Autowired
-    private StageManager stageManager;
 
     @Autowired
-    private UserService userService;
+    private ClientService clientService;
 
-    private ObservableList<User> userList = FXCollections.observableArrayList();
-    private ObservableList<String> roles = FXCollections.observableArrayList("Admin", "User");
+    private ObservableList<Client> clientList = FXCollections.observableArrayList();
 
     @FXML
     private void exit(ActionEvent event) {
@@ -144,93 +163,59 @@ public class ClientController implements Initializable {
     }
 
     @FXML
-    private void saveUser(ActionEvent event){
+    private void saveClient(ActionEvent event){
 
-        if(validate("First Name", getFirstName(), "[a-zA-Z]+") &&
-                validate("Last Name", getLastName(), "[a-zA-Z]+") &&
-                emptyValidation("DOB", dob.getEditor().getText().isEmpty()) &&
-                emptyValidation("Role", getRole() == null) ){
+        if(ValidationHelper.validate("First Name", getFirstName(), Constants.NAME_PATTERN) &&
+                ValidationHelper.validate("Last Name", getLastName(), Constants.NAME_PATTERN) &&
+                ValidationHelper.emptyValidation("DOB", dob.getEditor().getText().isEmpty())){
 
-            if(userId.getText() == null || userId.getText() == ""){
-                if(validate("Email", getEmail(), "[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+") &&
-                        emptyValidation("Password", getPassword().isEmpty())){
+            if(clientId.getText() == null || "".equals(clientId.getText())){
+                if(ValidationHelper.validate("Email", getEmail(), Constants.EMAIL_PATTERN)){
 
-                    User user = new User();
-                    user.setFirstName(getFirstName());
-                    user.setLastName(getLastName());
-                    user.setDob(getDob());
-                    user.setGender(getGender());
-                    user.setRole(getRole());
-                    user.setEmail(getEmail());
-                    user.setPassword(getPassword());
-
-                    User newUser = userService.save(user);
-
-                    saveAlert(newUser);
+                    Client client = new Client();
+                    setClientFields(client);
+                    client = clientService.save(client);
+                    AlertHelper.saveAlert("Usuario", "El cliente fue creado");
                 }
-
             }else{
-                User user = userService.find(Long.parseLong(userId.getText()));
-                user.setFirstName(getFirstName());
-                user.setLastName(getLastName());
-                user.setDob(getDob());
-                user.setGender(getGender());
-                user.setRole(getRole());
-                User updatedUser =  userService.update(user);
-                updateAlert(updatedUser);
+                Client client = clientService.find(Long.parseLong(clientId.getText()));
+                setClientFields(client);
+                client = clientService.update(client);
+                AlertHelper.updateAlert("Cliente", "Cliente actualizado");
             }
 
             clearFields();
-            loadUserDetails();
+            loadClientDetails();
         }
-
-
     }
 
+    private void setClientFields(Client client) {
+        client.setFirstName(getFirstName());
+        client.setLastName(getLastName());
+        client.setBirthDate(getDob());
+        client.setGender(getGender());
+        client.setEmail(getEmail());
+        client.setAdress(getAdress());
+    }
     @FXML
-    private void deleteUsers(ActionEvent event){
-        List<User> users = userTable.getSelectionModel().getSelectedItems();
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete selected?");
-        Optional<ButtonType> action = alert.showAndWait();
-
-        if(action.get() == ButtonType.OK) userService.deleteInBatch(users);
-
-        loadUserDetails();
+    private void deleteClients(ActionEvent event){
+        List<Client> clients = clientTable.getSelectionModel().getSelectedItems();
+        if(AlertHelper.deleteAlert()) clientService.deleteInBatch(clients);
+        loadClientDetails();
     }
-
 
     private void clearFields() {
-        userId.setText(null);
+        clientId.setText(null);
         firstName.clear();
         lastName.clear();
         dob.getEditor().clear();
         rbMale.setSelected(true);
         rbFemale.setSelected(false);
-        cbRole.getSelectionModel().clearSelection();
+        adress.setText(null);
+        phoneNumber.setText(null);
+        cellPhoneNumber.setText(null);
+        cuil.setText(null);
         email.clear();
-        password.clear();
-    }
-
-    private void saveAlert(User user){
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("User saved successfully.");
-        alert.setHeaderText(null);
-        alert.setContentText("The user "+user.getFirstName()+" "+user.getLastName() +" has been created and \n"+getGenderTitle(user.getGender())+" id is "+ user.getId() +".");
-        alert.showAndWait();
-    }
-
-    private void updateAlert(User user){
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("User updated successfully.");
-        alert.setHeaderText(null);
-        alert.setContentText("The user "+user.getFirstName()+" "+user.getLastName() +" has been updated.");
-        alert.showAndWait();
     }
 
     private String getGenderTitle(String gender){
@@ -253,78 +238,47 @@ public class ClientController implements Initializable {
         return rbMale.isSelected() ? "Male" : "Female";
     }
 
-    public String getRole() {
-        return cbRole.getSelectionModel().getSelectedItem();
-    }
-
     public String getEmail() {
         return email.getText();
     }
 
-    public String getPassword() {
-        return password.getText();
+    public String getAdress(){
+        return adress.getText();
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        cbRole.setItems(roles);
-
-        userTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
+        clientTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnProperties();
-
-        // Add all users into table
-        loadUserDetails();
+        loadClientDetails();
+        cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, this.borderPane, true)
+                .withAnimationInterpolation(null)
+                .withAutoShowAndHide(true);
+        cornerMenu.getItems().addAll(customMenu.addMenuItems());
     }
 
-
-
-    /*
-     *  Set All userTable column properties
-     */
     private void setColumnProperties(){
-		/* Override date format in table
-		 * colDOB.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<LocalDate>() {
-			 String pattern = "dd/MM/yyyy";
-			 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-		     @Override
-		     public String toString(LocalDate date) {
-		         if (date != null) {
-		             return dateFormatter.format(date);
-		         } else {
-		             return "";
-		         }
-		     }
-
-		     @Override
-		     public LocalDate fromString(String string) {
-		         if (string != null && !string.isEmpty()) {
-		             return LocalDate.parse(string, dateFormatter);
-		         } else {
-		             return null;
-		         }
-		     }
-		 }));*/
 
         colUserId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         colLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         colDOB.setCellValueFactory(new PropertyValueFactory<>("dob"));
         colGender.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        colRole.setCellValueFactory(new PropertyValueFactory<>("role"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        columnAdress.setCellValueFactory(new PropertyValueFactory<Client, String>("adress"));
+        columnCellPhone.setCellValueFactory(new PropertyValueFactory<>("cellPhone"));
+        columnCuil.setCellValueFactory(new PropertyValueFactory<Client, String>("cuil"));
+        columnPhone.setCellValueFactory(new PropertyValueFactory<Client, String>("phone"));
         colEdit.setCellFactory(cellFactory);
     }
 
-    Callback<TableColumn<User, Boolean>, TableCell<User, Boolean>> cellFactory =
-            new Callback<TableColumn<User, Boolean>, TableCell<User, Boolean>>()
+    Callback<TableColumn<Client, Boolean>, TableCell<Client, Boolean>> cellFactory =
+            new Callback<TableColumn<Client, Boolean>, TableCell<Client, Boolean>>()
             {
                 @Override
-                public TableCell<User, Boolean> call( final TableColumn<User, Boolean> param)
+                public TableCell<Client, Boolean> call( final TableColumn<Client, Boolean> param)
                 {
-                    return new TableCell<User, Boolean>()
+                    return new TableCell<Client, Boolean>()
                     {
                         Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
                         final Button btnEdit = new Button();
@@ -340,17 +294,12 @@ public class ClientController implements Initializable {
                             }
                             else{
                                 btnEdit.setOnAction(e ->{
-                                    User user = getTableView().getItems().get(getIndex());
-                                    updateUser(user);
+                                    Client client = getTableView().getItems().get(getIndex());
+                                    updateClient(client);
                                 });
 
-                                btnEdit.setStyle("-fx-background-color: transparent;");
-                                ImageView iv = new ImageView();
-                                iv.setImage(imgEdit);
-                                iv.setPreserveRatio(true);
-                                iv.setSmooth(true);
-                                iv.setCache(true);
-                                btnEdit.setGraphic(iv);
+                                btnEdit.setStyle(Constants.TRANSPARENT_BACKGROUND);
+                                btnEdit.setGraphic(GraphicsHelper.fixEditImage(getClass()));
 
                                 setGraphic(btnEdit);
                                 setAlignment(Pos.CENTER);
@@ -358,68 +307,36 @@ public class ClientController implements Initializable {
                             }
                         }
 
-                        private void updateUser(User user) {
-                            userId.setText(Long.toString(user.getId()));
-                            firstName.setText(user.getFirstName());
-                            lastName.setText(user.getLastName());
-                            dob.setValue(user.getDob());
-                            if(user.getGender().equals("Male")) rbMale.setSelected(true);
+                        private void updateClient( Client client) {
+                            clientId.setText(Long.toString(client.getId()));
+                            firstName.setText(client.getFirstName());
+                            lastName.setText(client.getLastName());
+                            dob.setValue(client.getBirthDate());
+                            adress.setText(client.getAdress());
+                            cellPhoneNumber.setText(client.getCellphoneNumber());
+                            phoneNumber.setText(client.getPhoneNumber());
+                            cuil.setText(client.getCuil());
+                            if(client.getGender().equals("Male")) rbMale.setSelected(true);
                             else rbFemale.setSelected(true);
-                            cbRole.getSelectionModel().select(user.getRole());
                         }
                     };
                 }
             };
 
-
-
-    /*
-     *  Add All users to observable list and update table
-     */
-    private void loadUserDetails(){
-        userList.clear();
-        userList.addAll(userService.findAll());
-
-        userTable.setItems(userList);
+    private void loadClientDetails(){
+        clientList.clear();
+        clientList.addAll(clientService.findAll());
+        clientTable.setItems(clientList);
     }
 
-    /*
-     * Validations
-     */
-    private boolean validate(String field, String value, String pattern){
-        if(!value.isEmpty()){
-            Pattern p = Pattern.compile(pattern);
-            Matcher m = p.matcher(value);
-            if(m.find() && m.group().equals(value)){
-                return true;
-            }else{
-                validationAlert(field, false);
-                return false;
-            }
-        }else{
-            validationAlert(field, true);
-            return false;
+    //region ACTIONS
+
+    @FXML
+    private void goBackToMenu(ActionEvent event) throws IOException {
+        if(Main.isAdmin()) {
+            stageManager.switchScene(FxmlView.MENUADMIN);
         }
     }
 
-    private boolean emptyValidation(String field, boolean empty){
-        if(!empty){
-            return true;
-        }else{
-            validationAlert(field, true);
-            return false;
-        }
-    }
-
-    private void validationAlert(String field, boolean empty){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Validation Error");
-        alert.setHeaderText(null);
-        if(field.equals("Role")) alert.setContentText("Please Select "+ field);
-        else{
-            if(empty) alert.setContentText("Please Enter "+ field);
-            else alert.setContentText("Please Enter Valid "+ field);
-        }
-        alert.showAndWait();
-    }
+    //endregion
 }

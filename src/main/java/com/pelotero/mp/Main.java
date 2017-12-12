@@ -12,7 +12,7 @@ import com.pelotero.mp.view.FxmlView;
 @SpringBootApplication
 public class Main extends Application {
 
-    private static boolean admin;
+    private static boolean admin = true;
 
     public static boolean isAdmin() {
         return admin;
@@ -52,7 +52,7 @@ public class Main extends Application {
      * window.
      */
     protected void displayInitialScene() {
-        stageManager.switchScene(FxmlView.MENUADMIN);
+        stageManager.switchScene(FxmlView.USER);
     }
 
     

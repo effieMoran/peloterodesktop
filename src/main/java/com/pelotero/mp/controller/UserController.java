@@ -11,7 +11,20 @@ import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.helper.AlertHelper;
 import com.pelotero.mp.helper.GraphicsHelper;
 import com.pelotero.mp.helper.ValidationHelper;
-import javafx.scene.control.*;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import jfxtras.scene.menu.CornerMenu;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +56,10 @@ public class UserController implements Initializable {
 
     CornerMenu cornerMenu;
 
+    @Lazy
     @Autowired
     private CustomMenuController customMenu;
+
     //region FXML_CONTROLS
     @FXML
     private Button btnLogout;
@@ -236,7 +251,7 @@ public class UserController implements Initializable {
 
         // Add all users into table
         loadUserDetails();
-        cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, this.borderPane, true)
+        cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, borderPane, true)
                 .withAnimationInterpolation(null)
                 .withAutoShowAndHide(true);
         cornerMenu.getItems().addAll(customMenu.addMenuItems());
@@ -264,15 +279,15 @@ public class UserController implements Initializable {
         {
             return   new TableCell<User, Boolean>()
             {
+                final Button btnEdit = new Button();
                 @Override
                 public void updateItem(Boolean check, boolean empty)
                 {
-                    final Button btnEdit = new Button();
+
 
                     super.updateItem(check, empty);
                     if(empty)
                     {
-                        setGraphic(null);
                         setGraphic(null);
                         setText(null);
                     }
