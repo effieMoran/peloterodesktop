@@ -40,40 +40,11 @@ public class AlertHelper {
         return action.get() == ButtonType.OK;
     }
 
-    public static boolean validate(String field, String value, String pattern){
-        if(!value.isEmpty()){
-            Pattern p = Pattern.compile(pattern);
-            Matcher m = p.matcher(value);
-            if(m.find() && m.group().equals(value)){
-                return true;
-            }else{
-                validationAlert(field, false);
-                return false;
-            }
-        }else{
-            validationAlert(field, true);
-            return false;
-        }
-    }
-
-    public static boolean emptyValidation(String field, boolean empty){
-        if(!empty){
-            return true;
-        }else{
-            validationAlert(field, true);
-            return false;
-        }
-    }
-
-    public static void validationAlert(String field, boolean empty){
+    public static void validationAlert(String className, String message){
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Error de validación");
+        alert.setTitle("Error de validación en "+ className);
         alert.setHeaderText(null);
-        if(field.equals("Rol")) alert.setContentText("Por favor seleccione "+ field);
-        else{
-            if(empty) alert.setContentText("Por favor ingrese "+ field);
-            else alert.setContentText("Por favor ingrese "+ field);
-        }
+        alert.setContentText(message);
         alert.showAndWait();
     }
 }

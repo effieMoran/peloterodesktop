@@ -17,7 +17,6 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 @Entity
 @Table(name = "topic")
 public class Topic {
@@ -36,4 +35,9 @@ public class Topic {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private long id;
+
+    @Override
+    public String toString() {
+        return id+ " - " + name ;
+    }
 }

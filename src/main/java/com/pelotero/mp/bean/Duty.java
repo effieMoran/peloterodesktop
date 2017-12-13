@@ -41,6 +41,7 @@ public class Duty {
 
     @Override
     public String toString() {
-        return name;
+        return name + " - $" + price;
     }
+
 }

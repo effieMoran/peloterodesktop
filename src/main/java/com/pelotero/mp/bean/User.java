@@ -11,88 +11,88 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="User")
+@Table(name = "User")
 public class User {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-	private long id;
-	private String firstName;
-	private String lastName;
-	private LocalDate dob;
-	private String gender;
-	private String role;
-	private String email;
+    private long id;
+    private String firstName;
+    private String lastName;
+    private LocalDate dob;
+    private String gender;
+    private String role;
+    private String email;
     private String password;
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	
-	public LocalDate getDob() {
-		return dob;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public void setDob(LocalDate dob) {
-		this.dob = dob;
-	}
-	
-	public String getGender() {
-		return gender;
-	}
+    public LocalDate getDob() {
+        return dob;
+    }
 
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	
-	public String getRole() {
-		return role;
-	}
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public String getGender() {
+        return gender;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getRole() {
+        return role;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	@Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
     public String toString() {
-	    return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dob=" + dob + ", email="
+        return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dob=" + dob + ", email="
                 + email + "]";
     }
 }

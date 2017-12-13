@@ -1,13 +1,10 @@
 package com.pelotero.mp.bean;
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 @Entity
 @Table(name = "combo")
 public class Combo {
@@ -44,4 +40,11 @@ public class Combo {
     @ManyToMany(fetch= FetchType.EAGER, cascade = CascadeType.MERGE )
     @ElementCollection(targetClass=Item.class)
     private List<Item> items;
+
+    @Override
+    public String toString() {
+        return  id +
+                " - $" + price +
+                " - " + name ;
+    }
 }

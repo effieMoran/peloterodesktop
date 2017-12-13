@@ -29,7 +29,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 @Entity
 @Table(name = "client")
 public class Client {
@@ -76,11 +75,11 @@ public class Client {
     @Setter
     @Getter
     private String gender;
-/*
-    @Getter
-    @Setter
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL )
-    @ElementCollection(targetClass=Reserva.class)
-    private Set<Reserva> reservas;
-    */
+
+    @Override
+    public String toString() {
+        return id +
+                " - " + firstName  +
+                " " + lastName ;
+    }
 }

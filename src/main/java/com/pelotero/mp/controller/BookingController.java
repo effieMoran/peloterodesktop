@@ -13,7 +13,11 @@ import com.pelotero.mp.helper.AlertHelper;
 import com.pelotero.mp.helper.GraphicsHelper;
 import com.pelotero.mp.helper.ValidationHelper;
 import com.pelotero.mp.service.BookingService;
+import com.pelotero.mp.service.ClientService;
+import com.pelotero.mp.service.ComboService;
+import com.pelotero.mp.service.DutyService;
 import com.pelotero.mp.service.PartyService;
+import com.pelotero.mp.service.TopicService;
 import com.pelotero.mp.view.FxmlView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -61,6 +65,19 @@ public class BookingController implements Initializable{
 
     @Autowired
     PartyService partyService;
+
+    @Autowired
+    ComboService comboService;
+
+    @Autowired
+    TopicService topicService;
+
+    @Autowired
+    DutyService dutyService;
+
+    @Autowired
+    ClientService clientService;
+
     CornerMenu cornerMenu;
 
     @Lazy
@@ -160,6 +177,11 @@ public class BookingController implements Initializable{
         setColumnProperties();
         loadBookingDetails();
 
+        comboBoxCombo.getItems().addAll(comboService.findAll());
+        comboBoxClient.getItems().addAll(clientService.findAll());
+        comboBoxDuty.getItems().addAll(dutyService.findAll());
+        comboBoxTopic.getItems().addAll(topicService.findAll());
+        comboBoxTopic.getItems().addAll(topicService.findAll());
         disableRangeDates();
 
         cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, borderPane, true)
@@ -220,10 +242,8 @@ public class BookingController implements Initializable{
                                     Booking booking = getTableView().getItems().get(getIndex());
                                     updateBooking(booking);
                                 });
-
                                 btnEdit.setStyle(Constants.TRANSPARENT_BACKGROUND);
                                 btnEdit.setGraphic(GraphicsHelper.fixEditImage(getClass()));
-
                                 setGraphic(btnEdit);
                                 setAlignment(Pos.CENTER);
                                 setText(null);
@@ -248,6 +268,10 @@ public class BookingController implements Initializable{
                             if("14:00".equals(booking.getTurn())) rbFirstTurn.setSelected(true);
                             else rbSecondTurn.setSelected(true);
 
+                            comboBoxCombo.setValue(booking.getCombo());
+                            comboBoxDuty.setValue(booking.getDuty());
+                            comboBoxTopic.setValue(booking.getTopic());
+                            comboBoxClient.setValue(booking.getClient());
                         }
                     };
                 }
@@ -281,28 +305,47 @@ public class BookingController implements Initializable{
 
     @FXML
     void reset(ActionEvent event) {
-
+        clearFields();
     }
 
     @FXML
     void saveBooking(ActionEvent event) {
-        //TODO: ADD VALIDATIONS
-        if(bookingId.getText() == null || "".equals(bookingId.getText())){
+        if(null != datePicckerParty.getValue() && !"".equals(kidsInvited.getText()) &&
+                null != kidsInvited.getText() ) {
+            if (bookingId.getText() == null || "".equals(bookingId.getText())) {
 
                 Booking booking = new Booking();
                 setBookingFields(booking);
-                booking =bookingService.save(booking);
-                //Todo: add significant alert
-                AlertHelper.saveAlert("Reserva guardada", "El usuario ");
-        }else{
-            Booking booking = bookingService.find(Long.parseLong(bookingId.getText()));
-            setBookingFields(booking);
-            booking = bookingService.update(booking);
-            AlertHelper.saveAlert("Usuario Actualizado", "El usuario ");
-        }
+                booking = bookingService.save(booking);
+                AlertHelper.saveAlert("Reserva guardada", "El identificador de la reserva es " +
+                        booking.getId()+".");
+            } else {
+                Booking booking = bookingService.find(Long.parseLong(bookingId.getText()));
+                setBookingFields(booking);
+                booking = bookingService.update(booking);
+                AlertHelper.saveAlert("Reserva Actualizadacon exito", " ");
+            }
 
-        clearFields();
-        loadBookingDetails();
+            clearFields();
+            loadBookingDetails();
+        }
+        else {
+            String message = "";
+            if("".equals(kidsInvited.getText()) || null == kidsInvited.getText()) {
+                message += "Debe ingresar el número de niños invitados\n";
+            }
+            if(null == datePicckerParty.getValue()){
+                message += "Debe seleccionar una fecha\n";
+            }
+            if(!kidAge.getText().matches(Constants.NUMBER_PATTERN)){
+                message += "La edad del nino/a debe ser un número\n";
+            }
+            if(!kidsInvited.getText().matches(Constants.NUMBER_PATTERN)){
+                message += "La cantidad de ninos debe ser un número\n";
+            }
+
+            AlertHelper.validationAlert("la reserva.", message);
+        }
     }
 
     private void clearFields() {
@@ -316,6 +359,11 @@ public class BookingController implements Initializable{
         kidAge.setText(null);
         kidsInvited.setText(null);
         kidName.setText(null);
+
+        comboBoxCombo.setValue(null);
+        comboBoxClient.setValue(null);
+        comboBoxDuty.setValue(null);
+        comboBoxTopic.setValue(null);
     }
 
     private void setBookingFields(Booking booking) {
@@ -330,6 +378,11 @@ public class BookingController implements Initializable{
 
         booking.setTurn(getTurn());
         booking.setDate(LocalDate.now());
+
+        booking.setClient(comboBoxClient.getValue());
+        booking.setCombo(comboBoxCombo.getValue());
+        booking.setTopic(comboBoxTopic.getValue());
+        booking.setDuty(comboBoxDuty.getValue());
     }
 
 }

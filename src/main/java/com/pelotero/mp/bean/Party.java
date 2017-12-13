@@ -38,6 +38,10 @@ public class Party {
     @Setter
     private LocalDate date;
 
+    @Getter
+    @Setter
+    private String turn;
+
     public Party(LocalDate date){
         this.date = date;
     }

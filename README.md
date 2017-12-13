@@ -155,16 +155,16 @@ _**Reservas:**_
 - [x] El sistema debe permitir la modificación de los datos de reservas guardadas.
 - [ ] El sistema debe permitir la eliminación de una reserva de un  evento.
 - [x] El sistema debe permitir añadir datos adicionales a la reserva  (datos del cumpleañero, nombre, edad, etc.)
-- [ ] El sistema debe permitir la selección de un combo pre-definido para la reserva.
-- [ ] El sistema debe permitir la selección de una temática pre-definida para la reserva.
-- [ ] El sistema debe permitir la selección opcional de uno o más servicios (video, foto, video y fotografía).
+- [x] El sistema debe permitir la selección de un combo pre-definido para la reserva.
+- [x] El sistema debe permitir la selección de una temática pre-definida para la reserva.
+- [x] El sistema debe permitir la selección opcional de uno o más servicios (video, foto, video y fotografía).
 - [x] El sistema debe permitir ingresar la cantidad de invitados niños.
 - [x] El sistema debe permitir la selección de un turno para la Reserva. (fecha y hora)
 - [ ] El sistema debe mostrar un listado de reservas en espera.
-- [ ] El sistema no debe permitir guardar la reserva antes de los 30 días de la fecha del evento. 
+- [x] El sistema no debe permitir guardar la reserva antes de los 30 días de la fecha del evento. 
 - [ ] El sistema no debe permitir guardar la reserva del turno, sin haber realizado un pago del 10% del servicio.
 - [ ] El sistema no debe permitir guardar la reserva con campos obligatorios incompletos.
-- [ ] El sistema no debe permitir guardar la reserva de un cliente que no está dado de alta.
+- [x] El sistema no debe permitir guardar la reserva de un cliente que no está dado de alta.
 - [ ] El sistema debe permitir la cancelación de la reserva hasta 3 días antes como máximo.
 - [ ] El sistema debe advertir que el costo al superar los 15 invitados, es de 100$ por cada invitado extra.
 
