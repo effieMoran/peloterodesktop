@@ -165,14 +165,15 @@ public class UserController implements Initializable {
                     User user = new User();
                     setUserFields(user);
                     user =userService.save(user);
-                    AlertHelper.saveAlert("Usuario", "el usuario "+user.getFirstName()
-                            +" "+user.getLastName() +" y su ID es \n" + user.getId());
+                    AlertHelper.saveAlert("Usuario guardado", "El usuario "+user.getFirstName()
+                            +" "+user.getLastName() +"ha sido guardado exitoasamente y su Identificador es \n" + user.getId());
                 }
             }else{
                 User user = userService.find(Long.parseLong(userId.getText()));
                 setUserFields(user);
                 user = userService.update(user);
-                AlertHelper.updateAlert("Usuario", user.getFirstName() + " " + user.getLastName());
+                AlertHelper.updateAlert("Usuario Actualizado", "El usuario "+user.getFirstName()
+                        + " " + user.getLastName()+ "fue actualizado exitosamente ");
             }
 
             clearFields();
@@ -225,7 +226,7 @@ public class UserController implements Initializable {
     }
 
     public String getGender(){
-        return rbMale.isSelected() ? "Male" : "Female";
+        return rbMale.isSelected() ? "Hombre" : "Mujer";
     }
 
     public String getRole() {

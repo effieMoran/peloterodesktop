@@ -94,7 +94,7 @@ public class CustomMenuController
         MenuItem menuItemUsers = registerActionUsers(new MenuItem("Usuarios",imageViewUsers ));
 
         MenuItem menuItemParty = registerAction(new MenuItem("Fiesta",imageViewParty ));
-        MenuItem menuItemBookings = registerAction(new MenuItem("Reservas",imageViewBookings ));
+        MenuItem menuItemBookings = registerActionBookings(new MenuItem("Reservas",imageViewBookings ));
         MenuItem menuItemClients = registerActionClients(new MenuItem("Clientes",imageViewClients ));
         MenuItem menuItemProducts = registerAction(new MenuItem("Productos",imageViewProducts ));
         MenuItem menuItemPayments = registerAction(new MenuItem("Pagos",imageViewPayments ));
@@ -183,4 +183,12 @@ public class CustomMenuController
         return menuItem;
     }
 
+    private MenuItem registerActionBookings(MenuItem menuItem) {
+        menuItem.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent t) {
+                stageManager.switchScene(FxmlView.BOOKING);
+            }
+        });
+        return menuItem;
+    }
 }

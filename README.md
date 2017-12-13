@@ -145,16 +145,16 @@ _**Pagos:**_
 _**Combos:**_
 
 - [x] El sistema debe permitir la carga de nuevos combos.
-- [ ] El sistema debe permitir la eliminación de combos.
+- [x] El sistema debe permitir la eliminación de combos.
 - [x] El sistema debe permitir la modificación de combos existentes.
 - [x] El sistema debe permitir listar los distintos combos disponibles.
 
 _**Reservas:**_
 
-- [ ] El sistema debe permitir la carga de nuevas reservas de eventos.
-- [ ] El sistema debe permitir la carga de nuevas reservas de eventos.
+- [x] El sistema debe permitir la carga de nuevas reservas de eventos.
+- [ ] El sistema debe permitir la modificación de los datos de reservas guardadas.
 - [ ] El sistema debe permitir la eliminación de una reserva de un  evento.
-- [ ] El sistema debe permitir añadir datos adicionales a la reserva  (datos del cumpleañero, nombre, edad, etc.)
+- [x] El sistema debe permitir añadir datos adicionales a la reserva  (datos del cumpleañero, nombre, edad, etc.)
 - [ ] El sistema debe permitir la selección de un combo pre-definido para la reserva.
 - [ ] El sistema debe permitir la selección de una temática pre-definida para la reserva.
 - [ ] El sistema debe permitir la selección opcional de uno o más servicios (video, foto, video y fotografía).
@@ -162,7 +162,7 @@ _**Reservas:**_
 - [ ] El sistema debe permitir la selección de un turno para la Reserva. (fecha y hora)
 - [ ] El sistema debe mostrar un listado de reservas en espera.
 - [ ] El sistema no debe permitir guardar la reserva antes de los 30 días de la fecha del evento. 
-- [ ] El sistema no debe permitir guardar la reserva antes de los 30 días de la fecha del evento. 
+- [ ] El sistema no debe permitir guardar la reserva del turno, sin haber realizado un pago del 10% del servicio.
 - [ ] El sistema no debe permitir guardar la reserva con campos obligatorios incompletos.
 - [ ] El sistema no debe permitir guardar la reserva de un cliente que no está dado de alta.
 - [ ] El sistema debe permitir la cancelación de la reserva hasta 3 días antes como máximo.

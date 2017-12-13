@@ -13,21 +13,21 @@ import java.util.regex.Pattern;
  */
 public class AlertHelper {
 
-    public static void saveAlert(String className,String message){
+    public static void saveAlert(String title,String message){
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle( className + " ha sido guardado guardado exitosamente.");
+        alert.setTitle( title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
 
-    public static void updateAlert(String className, String message){
+    public static void updateAlert(String title, String message){
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(className+" actualizado exitosamente.");
+        alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText("El "+ className + " "+ message+" actualizado exitosamente.");
+        alert.setContentText(message);
         alert.showAndWait();
     }
 
