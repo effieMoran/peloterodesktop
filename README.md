@@ -163,10 +163,10 @@ _**Reservas:**_
 - [ ] El sistema debe mostrar un listado de reservas en espera.
 - [x] El sistema no debe permitir guardar la reserva antes de los 30 días de la fecha del evento. 
 - [ ] El sistema no debe permitir guardar la reserva del turno, sin haber realizado un pago del 10% del servicio.
-- [ ] El sistema no debe permitir guardar la reserva con campos obligatorios incompletos.
+- [x] El sistema no debe permitir guardar la reserva con campos obligatorios incompletos.
 - [x] El sistema no debe permitir guardar la reserva de un cliente que no está dado de alta.
 - [ ] El sistema debe permitir la cancelación de la reserva hasta 3 días antes como máximo.
-- [ ] El sistema debe advertir que el costo al superar los 15 invitados, es de 100$ por cada invitado extra.
+- [x] El sistema debe advertir que el costo al superar los 15 invitados, es de 100$ por cada invitado extra.
 
 _**Lista de Requerimientos no Funcionales:**_
 
@@ -175,3 +175,10 @@ _**Lista de Requerimientos no Funcionales:**_
 - [ ] El sistema debe asegurar que los datos estén protegidos del acceso no autorizado.
 
 _*Extras:*_
+
+- [x] Grilla para que se reorganizable por campo para las pantallas de "Temática", "Servicio", "Combo", "Usuarios" y
+"Clientes"
+- [x] Las grillas también permiten desactivar y activar las columnas que deseo que se muestren/oculten;
+- [x] Eliminacion de a varias entidades selecionadas pudiendo utilizar las teclas *ctrl* o *shift* para selecionarlas
+- [x] Actulizado intantaneo de los datos al ser gusrdados para las pantallas descritas arriba;
+- [x] Menu circular _"Pop-up"_ con animación que se despliega desde la esquina.

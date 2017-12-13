@@ -7,18 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
+
 
 /**
  * Created by User on 13/12/2017.
@@ -26,15 +21,33 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 @Entity
 @Table(name = "bill_line")
 public class BillLine {
 
     @Id
+    @Getter
+    @Setter
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private long id;
+
+    @Getter
+    @Setter
+    private double price;
+
     @Setter
     @Getter
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    private String description;
+
+    public BillLine(double price, String description){
+        this.description = description;
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Combo " + description +
+                        " - Precio: $" + price + "\n";
+    }
 }
