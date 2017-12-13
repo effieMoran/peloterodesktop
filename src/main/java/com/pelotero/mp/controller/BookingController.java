@@ -78,11 +78,9 @@ public class BookingController implements Initializable{
     @FXML
     private DatePicker datePicckerParty;
 
-    @FXML
-    private HBox rbFirstTurn;
 
     @FXML
-    private RadioButton rbMale1;
+    private RadioButton rbFirstTurn;
     @FXML
     private ToggleGroup gender1;
     @FXML
@@ -234,14 +232,22 @@ public class BookingController implements Initializable{
 
                         private void updateBooking(Booking booking) {
                             bookingId.setText(Long.toString(booking.getId()));
-                            /*
-                            firstName.setText(user.getFirstName());
-                            lastName.setText(user.getLastName());
-                            dob.setValue(user.getDob());
-                            if(user.getGender().equals("Male")) rbMale.setSelected(true);
-                            else rbFemale.setSelected(true);
-                            cbRole.getSelectionModel().select(user.getRole());
-                            */
+                            kidAge.setText(String.valueOf(booking.getKidAge()));
+                            kidName.setText(booking.getKidName());
+                            kidsInvited.setText(String.valueOf(booking.getKidsInvited()));
+                            datePicckerParty.setValue(booking.getDate());
+
+                            if("Niño".equals(booking.getKidGender())) {
+                                rbMale.setSelected(true);
+                                rbFemale.setSelected(false);
+                            }
+                            else {
+                                rbFemale.setSelected(true);
+                                rbMale.setSelected(false);
+                            }
+                            if("14:00".equals(booking.getTurn())) rbFirstTurn.setSelected(true);
+                            else rbSecondTurn.setSelected(true);
+
                         }
                     };
                 }
@@ -292,11 +298,24 @@ public class BookingController implements Initializable{
             Booking booking = bookingService.find(Long.parseLong(bookingId.getText()));
             setBookingFields(booking);
             booking = bookingService.update(booking);
-            AlertHelper.updateAlert("Usuario Actualizado", "El usuario ");
+            AlertHelper.saveAlert("Usuario Actualizado", "El usuario ");
         }
 
-        //clearFields();
+        clearFields();
         loadBookingDetails();
+    }
+
+    private void clearFields() {
+        bookingId.setText(null);
+        datePicckerParty.setValue(null);
+        rbMale.setSelected(true);
+        rbFemale.setSelected(false);
+        rbSecondTurn.setSelected(true);
+        rbFirstTurn.setSelected(false);
+
+        kidAge.setText(null);
+        kidsInvited.setText(null);
+        kidName.setText(null);
     }
 
     private void setBookingFields(Booking booking) {

@@ -152,7 +152,7 @@ _**Combos:**_
 _**Reservas:**_
 
 - [x] El sistema debe permitir la carga de nuevas reservas de eventos.
-- [ ] El sistema debe permitir la modificación de los datos de reservas guardadas.
+- [x] El sistema debe permitir la modificación de los datos de reservas guardadas.
 - [ ] El sistema debe permitir la eliminación de una reserva de un  evento.
 - [x] El sistema debe permitir añadir datos adicionales a la reserva  (datos del cumpleañero, nombre, edad, etc.)
 - [ ] El sistema debe permitir la selección de un combo pre-definido para la reserva.
