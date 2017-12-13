@@ -159,7 +159,7 @@ _**Reservas:**_
 - [ ] El sistema debe permitir la selección de una temática pre-definida para la reserva.
 - [ ] El sistema debe permitir la selección opcional de uno o más servicios (video, foto, video y fotografía).
 - [x] El sistema debe permitir ingresar la cantidad de invitados niños.
-- [ ] El sistema debe permitir la selección de un turno para la Reserva. (fecha y hora)
+- [x] El sistema debe permitir la selección de un turno para la Reserva. (fecha y hora)
 - [ ] El sistema debe mostrar un listado de reservas en espera.
 - [ ] El sistema no debe permitir guardar la reserva antes de los 30 días de la fecha del evento. 
 - [ ] El sistema no debe permitir guardar la reserva del turno, sin haber realizado un pago del 10% del servicio.

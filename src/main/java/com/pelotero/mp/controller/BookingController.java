@@ -20,6 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,6 +45,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -158,13 +160,26 @@ public class BookingController implements Initializable{
 
         bookingTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnProperties();
-
-        // Add all users into table
         loadBookingDetails();
+
+        disableRangeDates();
+
         cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, borderPane, true)
                 .withAnimationInterpolation(null)
                 .withAutoShowAndHide(true);
         cornerMenu.getItems().addAll(customMenu.addMenuItems());
+    }
+
+    private void disableRangeDates(){
+        datePicckerParty.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                if (date.isBefore(LocalDate.now()) || date.isAfter(LocalDate.now().plusDays(29))) {
+                    setDisable(true);
+                }
+            }
+        });
     }
 
     private void setColumnProperties(){
@@ -178,7 +193,7 @@ public class BookingController implements Initializable{
         columnTopic.setCellValueFactory(new PropertyValueFactory<Booking, Topic>("topic"));
         colService.setCellValueFactory(new PropertyValueFactory<Booking, Duty>("duty"));
         columnClient.setCellValueFactory(new PropertyValueFactory<Booking, Client>("client"));
-        columnBookingDate.setCellValueFactory(new PropertyValueFactory<Booking, LocalDate>("bookingDate"));
+        columnBookingDate.setCellValueFactory(new PropertyValueFactory<Booking, LocalDate>("date"));
         columnKidsInvited.setCellValueFactory(new PropertyValueFactory<Booking, Integer>("kidsInvited"));
 
         colEdit.setCellFactory(cellFactory);
@@ -288,11 +303,14 @@ public class BookingController implements Initializable{
         booking.setKidName(kidName.getText());
         booking.setKidAge(Integer.valueOf(kidAge.getText()));
         booking.setKidGender(getGender());
+        booking.setKidsInvited(Integer.valueOf(kidsInvited.getText()));
+
         Party party = new Party(datePicckerParty.getValue());
         partyService.save(party);
         booking.setParty(party);
+
         booking.setTurn(getTurn());
-        booking.setKidsInvited(Integer.valueOf(kidsInvited.getText()));
+        booking.setDate(LocalDate.now());
     }
 
 }
