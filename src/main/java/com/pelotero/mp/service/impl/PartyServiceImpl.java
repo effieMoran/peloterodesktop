@@ -6,6 +6,7 @@ import com.pelotero.mp.service.PartyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ public class PartyServiceImpl implements PartyService {
 
     @Autowired
     PartyRepository partyRepository;
+
     @Override
     public Party save(Party entity) {
         return partyRepository.save(entity);
@@ -49,5 +51,10 @@ public class PartyServiceImpl implements PartyService {
     @Override
     public List<Party> findAll() {
         return partyRepository.findAll();
+    }
+
+    @Override
+    public boolean isPartyAvailableForBooking(LocalDate date, String turn) {
+        return null == partyRepository.findByDateAndTurn(date,turn);
     }
 }

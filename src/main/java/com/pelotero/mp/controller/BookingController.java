@@ -7,11 +7,9 @@ import com.pelotero.mp.bean.Duty;
 import com.pelotero.mp.bean.Party;
 import com.pelotero.mp.bean.Topic;
 import com.pelotero.mp.config.StageManager;
-import com.pelotero.mp.constants.AvailableTurn;
 import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.helper.AlertHelper;
 import com.pelotero.mp.helper.GraphicsHelper;
-import com.pelotero.mp.helper.ValidationHelper;
 import com.pelotero.mp.service.BookingService;
 import com.pelotero.mp.service.ClientService;
 import com.pelotero.mp.service.ComboService;
@@ -19,6 +17,7 @@ import com.pelotero.mp.service.DutyService;
 import com.pelotero.mp.service.PartyService;
 import com.pelotero.mp.service.TopicService;
 import com.pelotero.mp.view.FxmlView;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,10 +45,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 
 import java.net.URL;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -290,7 +287,7 @@ public class BookingController implements Initializable{
 
     @FXML
     void exit(ActionEvent event) {
-
+        Platform.exit();
     }
 
     @FXML
@@ -310,42 +307,59 @@ public class BookingController implements Initializable{
 
     @FXML
     void saveBooking(ActionEvent event) {
-        if(null != datePicckerParty.getValue() && !"".equals(kidsInvited.getText()) &&
-                null != kidsInvited.getText() ) {
-            if (bookingId.getText() == null || "".equals(bookingId.getText())) {
+        String message = "";
+        if(null != datePicckerParty.getValue() && !"".equals(kidsInvited.getText()) && null != kidsInvited.getText() &&
+                null != comboBoxClient.getValue() && null != comboBoxCombo.getValue() &&
+                null != comboBoxDuty.getValue() && null != comboBoxTopic.getValue()
+                ){
+            if(partyService.isPartyAvailableForBooking(datePicckerParty.getValue(),getTurn())) {
+                if (bookingId.getText() == null || "".equals(bookingId.getText())) {
 
-                Booking booking = new Booking();
-                setBookingFields(booking);
-                booking = bookingService.save(booking);
-                AlertHelper.saveAlert("Reserva guardada", "El identificador de la reserva es " +
-                        booking.getId()+".");
-            } else {
-                Booking booking = bookingService.find(Long.parseLong(bookingId.getText()));
-                setBookingFields(booking);
-                booking = bookingService.update(booking);
-                AlertHelper.saveAlert("Reserva Actualizadacon exito", " ");
+                    Booking booking = new Booking();
+                    setBookingFields(booking);
+                    booking = bookingService.save(booking);
+                    AlertHelper.saveAlert("Reserva guardada", "El identificador de la reserva es " +
+                            booking.getId() + ".");
+                } else {
+                    Booking booking = bookingService.find(Long.parseLong(bookingId.getText()));
+                    setBookingFields(booking);
+                    booking = bookingService.update(booking);
+                    AlertHelper.saveAlert("Reserva Actualizadacon exito", " ");
+                }
+
+                clearFields();
+                loadBookingDetails();
             }
-
-            clearFields();
-            loadBookingDetails();
+            else {
+                AlertHelper.validationAlert("la reserva", "Lamentamos informarle que la fecha o " +
+                        "turno no están disponibles. Por favor, intente otra combinación.");
+            }
         }
         else {
-            String message = "";
-            if("".equals(kidsInvited.getText()) || null == kidsInvited.getText()) {
-                message += "Debe ingresar el número de niños invitados\n";
-            }
-            if(null == datePicckerParty.getValue()){
-                message += "Debe seleccionar una fecha\n";
-            }
-            if(!kidAge.getText().matches(Constants.NUMBER_PATTERN)){
-                message += "La edad del nino/a debe ser un número\n";
-            }
-            if(!kidsInvited.getText().matches(Constants.NUMBER_PATTERN)){
-                message += "La cantidad de ninos debe ser un número\n";
-            }
-
-            AlertHelper.validationAlert("la reserva.", message);
+            emptyValidation(message);
         }
+    }
+
+    private void emptyValidation(String message) {
+        if("".equals(kidsInvited.getText()) && null == kidsInvited.getText()) {
+            message += "Debe ingresar la cantidad de niños invitados\n";
+        }
+        if(null == datePicckerParty.getValue()){
+            message += "Debe seleccionar una fecha\n";
+        }
+        if(null == comboBoxClient.getValue()){
+            message += "Debe seleccionar un Cliente.\n";
+        }
+        if(null == comboBoxCombo.getValue()){
+            message += "Debe seleccionar un Combo.\n";
+        }
+        if(null == comboBoxDuty.getValue()){
+            message += "Debe seleccionar un Servicio.\n";
+        }
+        if(null == comboBoxTopic.getValue()){
+            message += "Debe seleccionar una Temática.\n";
+        }
+        AlertHelper.validationAlert("la reserva.", message);
     }
 
     private void clearFields() {
@@ -373,6 +387,7 @@ public class BookingController implements Initializable{
         booking.setKidsInvited(Integer.valueOf(kidsInvited.getText()));
 
         Party party = new Party(datePicckerParty.getValue());
+        party.setTurn(getTurn());
         partyService.save(party);
         booking.setParty(party);
 
