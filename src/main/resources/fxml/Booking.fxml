@@ -125,6 +125,11 @@
                   <Insets left="25.0" right="25.0" />
                </VBox.margin>
             </ComboBox>
+            <TextField fx:id="kidsInvited" layoutX="40.0" layoutY="384.0" prefHeight="30.0" prefWidth="246.0" promptText="Cantidad de niños">
+               <VBox.margin>
+                  <Insets left="25.0" right="25.0" />
+               </VBox.margin>
+            </TextField>
             <HBox layoutX="40.0" layoutY="75.0" prefHeight="30.0" prefWidth="265.0">
                <children>
                   <Label prefHeight="21.0" prefWidth="132.0" text="Datos del niño/a" textFill="#f8f7f7">
@@ -214,6 +219,7 @@
                         <TableColumn fx:id="columnGender" maxWidth="6000.0" prefWidth="130.0" text="niño/a" />
                         <TableColumn fx:id="columnName" maxWidth="6000.0" prefWidth="100.0" text="Nombre" />
                         <TableColumn fx:id="columnAge" maxWidth="6000.0" prefWidth="100.0" text="Edad" />
+                  <TableColumn fx:id="columnKidsInvited" maxWidth="6000.0" prefWidth="100.0" text="Invitados" />
                         <TableColumn fx:id="colEdit" maxWidth="3500.0" prefWidth="75.0" text="Editar" />
                     </columns>
                     <VBox.margin>

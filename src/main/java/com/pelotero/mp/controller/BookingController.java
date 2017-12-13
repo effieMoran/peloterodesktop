@@ -111,6 +111,9 @@ public class BookingController implements Initializable{
     private TextField kidAge;
 
     @FXML
+    private TextField kidsInvited;
+
+    @FXML
     private Button reset;
 
     @FXML
@@ -135,6 +138,8 @@ public class BookingController implements Initializable{
     private TableColumn<Booking, String> columnName;
     @FXML
     private TableColumn<Booking, Integer> columnAge;
+    @FXML
+    private TableColumn<Booking, Integer> columnKidsInvited;
     @FXML
     private TableColumn<Booking, Boolean> colEdit;
 
@@ -174,6 +179,7 @@ public class BookingController implements Initializable{
         colService.setCellValueFactory(new PropertyValueFactory<Booking, Duty>("duty"));
         columnClient.setCellValueFactory(new PropertyValueFactory<Booking, Client>("client"));
         columnBookingDate.setCellValueFactory(new PropertyValueFactory<Booking, LocalDate>("bookingDate"));
+        columnKidsInvited.setCellValueFactory(new PropertyValueFactory<Booking, Integer>("kidsInvited"));
 
         colEdit.setCellFactory(cellFactory);
     }
@@ -286,6 +292,7 @@ public class BookingController implements Initializable{
         partyService.save(party);
         booking.setParty(party);
         booking.setTurn(getTurn());
+        booking.setKidsInvited(Integer.valueOf(kidsInvited.getText()));
     }
 
 }

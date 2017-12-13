@@ -24,7 +24,7 @@ public class CustomMenuController
     @Autowired
     StageManager stageManager;
     private static final String COMBO_IMAGE_URL = "/images/icons/basket.png";
-    private static final String USERS_IMAGE_URL = "/images/icons/3d_group.png";
+    private static final String USERS_IMAGE_URL = "/images/icons/003-man-1.png";
     private static final String PROVIDERS_IMAGE_URL = "/images/icons/delivery-truck.png";
     private static final String REPORTS_IMAGE_URL = "/images/icons/graph.png";
     private static final String TOPICS_IMAGE_URL = "/images/icons/bee_512px.png";
@@ -32,7 +32,7 @@ public class CustomMenuController
     private static final String PARTY_IMAGE_URL = "/images/icons/giftbox.png";
     private static final String PRODUCTS_IMAGE_URL = "/images/icons/barcode-scanning.png";
     private static final String BOOKINGS_IMAGE_URL = "/images/icons/checklist.png";
-    private static final String CLIENTS_IMAGE_URL = "/images/icons/client_user.png";
+    private static final String CLIENTS_IMAGE_URL = "/images/icons/002-people.png";
     private static final String PAYMENTS_IMAGE_URL = "/images/icons/money-pig.png";
 
     private static final int PREF_WIDTH = 57;

@@ -50,6 +50,10 @@ public class Booking {
 
     @Getter
     @Setter
+    private int kidsInvited;
+
+    @Getter
+    @Setter
     private String kidGender;
 
     @Getter
