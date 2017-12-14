@@ -62,6 +62,14 @@ public class Booking {
     @Setter
     private LocalDate date;
 
+    @Getter
+    @Setter
+    private LocalDate partyDate;
+
+    @Getter
+    @Setter
+    private String status;
+
     @Setter
     @Getter
     @ManyToOne(fetch= FetchType.EAGER, cascade = CascadeType.MERGE )

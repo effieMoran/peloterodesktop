@@ -1,7 +1,6 @@
 package com.pelotero.mp.controller;
 
 import com.pelotero.mp.bean.Bill;
-import com.pelotero.mp.bean.BillLine;
 import com.pelotero.mp.bean.Booking;
 import com.pelotero.mp.bean.Client;
 import com.pelotero.mp.bean.Combo;
@@ -28,7 +27,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.DateCell;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -43,7 +41,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -53,10 +50,8 @@ import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 /**
  * Created by User on 12/12/2017.
@@ -153,6 +148,10 @@ public class BookingController implements Initializable{
     @FXML
     private TableColumn<Booking, LocalDate> columnBookingDate;
     @FXML
+    private TableColumn<Booking, LocalDate> columnPartyDate;
+    @FXML
+    private TableColumn<Booking, String> columnStatus;
+    @FXML
     private TableColumn<Booking, String> columnTurn;
     @FXML
     private TableColumn<Booking, Combo> columnCombo;
@@ -170,9 +169,6 @@ public class BookingController implements Initializable{
     private TableColumn<Booking, Integer> columnKidsInvited;
     @FXML
     private TableColumn<Booking, Boolean> colEdit;
-
-    @FXML
-    private MenuItem deleteUsers;
 
     public String getGender(){
         return rbMale.isSelected() ? "Niño" : "Niña";
@@ -195,6 +191,8 @@ public class BookingController implements Initializable{
         comboBoxTopic.getItems().addAll(topicService.findAll());
         DatePickerHelper.disableRangeDates(datePicckerParty);
 
+        hideFields();
+
         cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, borderPane, true)
                 .withAnimationInterpolation(null)
                 .withAutoShowAndHide(true);
@@ -202,20 +200,32 @@ public class BookingController implements Initializable{
     }
 
     private void setColumnProperties(){
-        columnBookingId.setCellValueFactory(new PropertyValueFactory<Booking, Long>("id"));
+
         columnName.setCellValueFactory(new PropertyValueFactory<Booking, String>("kidName"));
         columnAge.setCellValueFactory(new PropertyValueFactory<Booking, Integer>("kidAge"));
         columnGender.setCellValueFactory(new PropertyValueFactory<Booking, String>("kidGender"));
-        columnTurn.setCellValueFactory(new PropertyValueFactory<Booking, String>("turn"));
 
+        columnBookingId.setCellValueFactory(new PropertyValueFactory<Booking, Long>("id"));
+        columnTurn.setCellValueFactory(new PropertyValueFactory<Booking, String>("turn"));
         columnCombo.setCellValueFactory(new PropertyValueFactory<Booking, Combo>("combo"));
         columnTopic.setCellValueFactory(new PropertyValueFactory<Booking, Topic>("topic"));
         colService.setCellValueFactory(new PropertyValueFactory<Booking, Duty>("duty"));
         columnClient.setCellValueFactory(new PropertyValueFactory<Booking, Client>("client"));
         columnBookingDate.setCellValueFactory(new PropertyValueFactory<Booking, LocalDate>("date"));
         columnKidsInvited.setCellValueFactory(new PropertyValueFactory<Booking, Integer>("kidsInvited"));
+        columnStatus.setCellValueFactory(new PropertyValueFactory<Booking, String>("status"));
+        columnPartyDate.setCellValueFactory(new PropertyValueFactory<Booking, LocalDate>("partyDate"));
 
         colEdit.setCellFactory(cellFactory);
+    }
+
+    private void hideFields() {
+        columnGender.setVisible(false);
+        columnName.setVisible(false);
+        columnAge.setVisible(false);
+        columnBookingDate.setVisible(false);
+        columnKidsInvited.setVisible(false);
+        columnStatus.setVisible(false);
     }
 
     Callback<TableColumn<Booking, Boolean>, TableCell<Booking, Boolean>> cellFactory =
@@ -239,8 +249,32 @@ public class BookingController implements Initializable{
                             else{
                                 btnEdit.setOnAction(e ->{
                                     Booking booking = getTableView().getItems().get(getIndex());
-                                    updateBooking(booking);
+                                    if(!Constants.BOOKING_NO_REFUND.equals(booking.getStatus())){
+                                        if(!Constants.BOOKING_FINALIZED.equals(booking.getStatus())){
+                                            if(!Constants.BOOKING_CANCELLED.equals(booking.getStatus())) {
+                                                updateBooking(booking);
+                                            }
+                                            else{
+                                                AlertHelper.errorAlert(Constants.BOOKING_CANCELATION_EXPIRED_TITLE,
+                                                        "La reserva fue cancelada",
+                                                        "No se pueden modificar reservas canceladas.");
+                                            }
+                                        }
+                                        else{
+                                            AlertHelper.errorAlert(Constants.BOOKING_CANCELATION_EXPIRED_TITLE,
+                                                    "La fiesta ya ha finalizado",
+                                                    "No se pueden modificar reservas pasadas.")
+                                            ;
+                                        }
+                                    }
+                                    else {
+                                        AlertHelper.errorAlert(
+                                                Constants.BOOKING_CANCELATION_EXPIRED_TITLE,
+                                                Constants.BOOKING_CANCELATION_EXPIRED_HEADER,
+                                            Constants.BOOKING_CANCELATION_EXPIRED_MESSAGE);
+                                    }
                                 });
+
                                 btnEdit.setStyle(Constants.TRANSPARENT_BACKGROUND);
                                 btnEdit.setGraphic(GraphicsHelper.fixEditImage(getClass()));
                                 setGraphic(btnEdit);
@@ -254,7 +288,7 @@ public class BookingController implements Initializable{
                             kidAge.setText(String.valueOf(booking.getKidAge()));
                             kidName.setText(booking.getKidName());
                             kidsInvited.setText(String.valueOf(booking.getKidsInvited()));
-                            datePicckerParty.setValue(booking.getDate());
+                            datePicckerParty.setValue(booking.getPartyDate());
 
                             if("Niño".equals(booking.getKidGender())) {
                                 rbMale.setSelected(true);
@@ -279,12 +313,31 @@ public class BookingController implements Initializable{
 
     private void loadBookingDetails(){
         bookingsList.clear();
+
         bookingsList.addAll(bookingService.findAll());
+        for(Booking b: bookingsList){
+            if(null != b.getPartyDate()) {
+                if (b.getPartyDate().isBefore(LocalDate.now())) {
+                    b.setStatus(Constants.BOOKING_FINALIZED);
+                    bookingService.update(b);
+                } else if (LocalDate.now().isBefore(b.getPartyDate().minusDays(3))) {
+                    b.setStatus(Constants.BOOKING_NO_REFUND);
+                    bookingService.update(b);
+                }
+            }
+        }
+
         bookingTable.setItems(bookingsList);
     }
     @FXML
-    void deleteClients(ActionEvent event) {
+    void cancelBooking(ActionEvent event) {
+        List<Booking> bookings = bookingTable.getSelectionModel().getSelectedItems();
+        for(Booking b: bookings ){
+            b.setStatus(Constants.BOOKING_CANCELLED);
+            bookingService.update(b);
+        }
 
+        loadBookingDetails();
     }
 
     @FXML
@@ -394,12 +447,12 @@ public class BookingController implements Initializable{
 
         booking.setTurn(getTurn());
         booking.setDate(LocalDate.now());
-
+        booking.setPartyDate(datePicckerParty.getValue());
+        booking.setStatus(Constants.BOOKING_WAITING);
         booking.setClient(comboBoxClient.getValue());
         booking.setCombo(comboBoxCombo.getValue());
         booking.setTopic(comboBoxTopic.getValue());
         booking.setDuty(comboBoxDuty.getValue());
-
     }
 
 }

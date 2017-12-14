@@ -153,7 +153,7 @@ _**Reservas:**_
 
 - [x] El sistema debe permitir la carga de nuevas reservas de eventos.
 - [x] El sistema debe permitir la modificación de los datos de reservas guardadas.
-- [ ] El sistema debe permitir la eliminación de una reserva de un  evento.
+- [x] El sistema debe permitir la eliminación de una reserva de un  evento.
 - [x] El sistema debe permitir añadir datos adicionales a la reserva  (datos del cumpleañero, nombre, edad, etc.)
 - [x] El sistema debe permitir la selección de un combo pre-definido para la reserva.
 - [x] El sistema debe permitir la selección de una temática pre-definida para la reserva.
@@ -165,7 +165,7 @@ _**Reservas:**_
 - [ ] El sistema no debe permitir guardar la reserva del turno, sin haber realizado un pago del 10% del servicio.
 - [x] El sistema no debe permitir guardar la reserva con campos obligatorios incompletos.
 - [x] El sistema no debe permitir guardar la reserva de un cliente que no está dado de alta.
-- [ ] El sistema debe permitir la cancelación de la reserva hasta 3 días antes como máximo.
+- [x] El sistema debe permitir la cancelación de la reserva hasta 3 días antes como máximo.
 - [x] El sistema debe advertir que el costo al superar los 15 invitados, es de 100$ por cada invitado extra.
 
 _**Lista de Requerimientos no Funcionales:**_
