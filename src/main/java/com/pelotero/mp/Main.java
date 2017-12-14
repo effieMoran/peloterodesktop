@@ -12,7 +12,7 @@ import com.pelotero.mp.view.FxmlView;
 @SpringBootApplication
 public class Main extends Application {
 
-    private static boolean admin = true;
+    private static boolean admin = false;
 
     public static boolean isAdmin() {
         return admin;

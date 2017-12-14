@@ -1,5 +1,6 @@
 package com.pelotero.mp.controller;
 
+import com.pelotero.mp.Main;
 import com.pelotero.mp.config.StageManager;
 import com.pelotero.mp.view.FxmlView;
 import javafx.event.ActionEvent;
@@ -101,18 +102,22 @@ public class CustomMenuController
 
 
         List<MenuItem> menuItemList = new ArrayList<>();
-        menuItemList.add(menuItemProviders);
-        menuItemList.add(menuItemCombos);
-        menuItemList.add(menuItemReports);
-        menuItemList.add(menuItemServices);
-        menuItemList.add(menuItemTopics);
-        menuItemList.add(menuItemUsers);
 
+        menuItemList.add(menuItemTopics);
         menuItemList.add(menuItemParty);
         menuItemList.add(menuItemBookings);
         menuItemList.add(menuItemProducts);
         menuItemList.add(menuItemClients);
         menuItemList.add(menuItemPayments);
+
+        if(Main.isAdmin()){
+
+            menuItemList.add(menuItemReports);
+            menuItemList.add(menuItemProviders);
+            menuItemList.add(menuItemCombos);
+            menuItemList.add(menuItemUsers);
+            menuItemList.add(menuItemServices);
+        }
 
         return menuItemList;
     }
