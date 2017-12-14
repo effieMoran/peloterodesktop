@@ -20,4 +20,6 @@ public class Constants {
     public static final String EMPTY_DUTY= "Debe seleccionar un Servicio.\n";
     public static final String EMPTY_TOPIC= "Debe seleccionar una Temática.\n";
 
+    public static final int MINIMUN_AGE = 18;
+
 }

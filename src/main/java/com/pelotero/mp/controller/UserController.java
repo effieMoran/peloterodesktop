@@ -14,6 +14,7 @@ import com.pelotero.mp.helper.ValidationHelper;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -252,10 +253,25 @@ public class UserController implements Initializable {
 
         // Add all users into table
         loadUserDetails();
+
+        setCalendarFonOnlyAdults();
         cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, borderPane, true)
                 .withAnimationInterpolation(null)
                 .withAutoShowAndHide(true);
         cornerMenu.getItems().addAll(customMenu.addMenuItems());
+    }
+
+    private void setCalendarFonOnlyAdults() {
+        dob.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                if (date.isAfter(LocalDate.now().minusYears(Constants.MINIMUN_AGE))) {
+                    setDisable(true);
+                }
+            }
+        });
+        dob.setValue(LocalDate.now().minusYears(Constants.MINIMUN_AGE));
     }
 
     /*

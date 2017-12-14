@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -251,10 +252,24 @@ public class ClientController implements Initializable {
         clientTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnProperties();
         loadClientDetails();
+        setCalendarFonOnlyAdults();
         cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, this.borderPane, true)
                 .withAnimationInterpolation(null)
                 .withAutoShowAndHide(true);
         cornerMenu.getItems().addAll(customMenu.addMenuItems());
+    }
+
+    private void setCalendarFonOnlyAdults() {
+        dob.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                if (date.isAfter(LocalDate.now().minusYears(Constants.MINIMUN_AGE))) {
+                    setDisable(true);
+                }
+            }
+        });
+        dob.setValue(LocalDate.now().minusYears(Constants.MINIMUN_AGE));
     }
 
     private void setColumnProperties(){

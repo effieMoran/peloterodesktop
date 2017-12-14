@@ -182,3 +182,5 @@ _*Extras:*_
 - [x] Eliminacion de a varias entidades selecionadas pudiendo utilizar las teclas *ctrl* o *shift* para selecionarlas
 - [x] Actulizado intantaneo de los datos al ser gusrdados para las pantallas descritas arriba;
 - [x] Menu circular _"Pop-up"_ con animación que se despliega desde la esquina.
+- [ ] Reloj en el menu de inicio que señala si es hora de que turno de la fiesta o de mantenimiento del salon.
+- [x] Desahabilitar el calendario para menores de 18 años en las pantallas Usuario y Cliente.
