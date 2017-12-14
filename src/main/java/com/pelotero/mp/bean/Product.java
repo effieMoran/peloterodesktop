@@ -30,7 +30,7 @@ public class Product {
     @Getter
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Getter
     @Setter
@@ -43,6 +43,14 @@ public class Product {
     @Getter
     @Setter
     private String brand;
+
+    @Getter
+    @Setter
+    private String category;
+
+    @Getter
+    @Setter
+    private String description;
 
     @Getter
     @Setter

@@ -38,5 +38,13 @@ public class Constants {
     public static final String BOOKING_FINALIZED = "Finalizada";
 
 
+    public static final String FOOD = "Comida";
+    public static final String DRINKS = "Bebidas";
+    public static final String TOYS = "Juguetes";
+    public static final String GIFTS = "Souvenirs";
+    public static final String COTILLON = "Cotillon";
 
+    public static final String PRODUCT_SAVED_TITLE = "Usuario guardado";
+    public static final String PRODUCT_SAVER_MESSAGE = "El producto se guardo exitosamente.";
+    public static final String PRODUCT_MODIFIED_MESSAGE = "El producto se modifico exitosamente.";
 }

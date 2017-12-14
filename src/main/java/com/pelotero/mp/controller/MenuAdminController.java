@@ -12,6 +12,8 @@ import eu.hansolo.medusa.GaugeBuilder;
 import eu.hansolo.medusa.GaugeDesign;
 import eu.hansolo.medusa.TimeSection;
 import eu.hansolo.medusa.TimeSectionBuilder;
+import eu.hansolo.medusa.events.TimeEvent;
+import eu.hansolo.medusa.events.TimeEventListener;
 import eu.hansolo.medusa.skins.ClockSkin;
 import eu.hansolo.medusa.skins.FlatSkin;
 import eu.hansolo.medusa.skins.MinimalClockSkin;
@@ -21,6 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -56,11 +59,21 @@ public class MenuAdminController implements Initializable {
     HBox hboxtop;
 
     //region FXML_CONTROLLS
-    @FXML
-    public Button buttonLogOut;
+
     @FXML
     public Button buttonExit;
 
+    @FXML
+    private HBox hboxClock;
+
+    @FXML
+    private CheckBox cbFirstTurn;
+
+    @FXML
+    private CheckBox cbCleaning;
+
+    @FXML
+    private CheckBox cbSecondTurn;
     //endregion
     @Lazy
     @Autowired
@@ -77,31 +90,22 @@ public class MenuAdminController implements Initializable {
                .withAutoShowAndHide(true);
         cornerMenu.getItems().addAll(customMenu.addMenuItems());
 
-        TimeSection timeSection = TimeSectionBuilder.create()
-                .start(LocalTime.of(14, 00, 00))
-                .stop(LocalTime.of(15, 00, 00))
-                .onTimeSectionEntered(event ->
-                        System.out.println("Garden light on"))
-                .onTimeSectionLeft(event ->
-                        System.out.println("Garden light off"))
-                .color(Color.rgb(255, 128, 0, 0.5))
-                .build();
         Clock clock =  ClockBuilder.create()
-                .secondColor(Color.ALICEBLUE)
                 .sectionsVisible(true)
                 .checkSectionsForValue(true)
                 .running(true)
                 .build();
+
         clock.setSkin(new MinimalClockSkin(clock));
         clock.setSecondColor(Color.GREEN);
         clock.setMinuteColor(Color.DARKSALMON);
         //clock.setBackgroundPaint(Paint.valueOf("blue"));
+        clock.setBackgroundPaint(Color.ALICEBLUE);
         clock.setKnobColor(Color.GREEN);
         clock.setAlarmColor(Color.GREEN);
-        borderPane.setBottom(clock);
+        hboxClock.getChildren().add(clock);
+        //borderPane.setBottom(clock);
     }
-
-
 
 
     //region NAVIGATION_BUTTONS

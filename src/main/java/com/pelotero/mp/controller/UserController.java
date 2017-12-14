@@ -53,16 +53,15 @@ import javafx.util.Callback;
 @Controller
 public class UserController implements Initializable {
 
-    @FXML
-    BorderPane borderPane;
-
-    CornerMenu cornerMenu;
+    private CornerMenu cornerMenu;
 
     @Lazy
     @Autowired
     private CustomMenuController customMenu;
 
     //region FXML_CONTROLS
+    @FXML
+    private BorderPane borderPane;
     @FXML
     private Button btnLogout;
     @FXML
@@ -140,9 +139,7 @@ public class UserController implements Initializable {
 
     @FXML
     private void goBackToMenu(ActionEvent event) throws IOException {
-        if(Main.isAdmin()) {
-            stageManager.switchScene(FxmlView.MENUADMIN);
-        }
+        stageManager.switchScene(FxmlView.MENUADMIN);
     }
 
     //endregion

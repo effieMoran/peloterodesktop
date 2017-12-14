@@ -6,23 +6,23 @@ public enum FxmlView {
 
     USER {
         @Override
-		public String getTitle() {
+        public String getTitle() {
             return getStringFromResourceBundle("user.title");
         }
 
         @Override
-		public String getFxmlFile() {
+        public String getFxmlFile() {
             return "/fxml/User.fxml";
         }
-    }, 
+    },
     LOGIN {
         @Override
-		public String getTitle() {
+        public String getTitle() {
             return getStringFromResourceBundle("login.title");
         }
 
         @Override
-		public String getFxmlFile() {
+        public String getFxmlFile() {
             return "/fxml/Login.fxml";
         }
     },
@@ -70,6 +70,17 @@ public enum FxmlView {
             return "/fxml/Topics.fxml";
         }
     },
+    PRODUCT {
+        @Override
+        public String getTitle() {
+            return getStringFromResourceBundle("product.title");
+        }
+
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/Product.fxml";
+        }
+    },
     COMBO {
         @Override
         public String getTitle() {
@@ -92,11 +103,12 @@ public enum FxmlView {
             return "/fxml/Duty.fxml";
         }
     };
-    
+
     public abstract String getTitle();
+
     public abstract String getFxmlFile();
-    
-    String getStringFromResourceBundle(String key){
+
+    String getStringFromResourceBundle(String key) {
         return ResourceBundle.getBundle("Bundle").getString(key);
     }
 

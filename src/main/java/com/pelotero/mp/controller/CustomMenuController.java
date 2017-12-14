@@ -51,7 +51,6 @@ public class CustomMenuController
     private static ImageView imageViewProducts = new ImageView(new Image(PRODUCTS_IMAGE_URL));
     private static ImageView imageViewPayments = new ImageView(new Image(PAYMENTS_IMAGE_URL));
 
-
     public List<MenuItem> addMenuItems(){
 
         imageViewCombo.setFitHeight(PREF_HEIGHT);
@@ -87,19 +86,18 @@ public class CustomMenuController
         imageViewPayments.setFitHeight(PREF_HEIGHT);
         imageViewPayments.setFitWidth(PREF_WIDTH);
 
-        MenuItem menuItemProviders = registerActionProviders(new MenuItem("Proveedores",imageViewProviders ));
         MenuItem menuItemCombos = registerActionCombos(new MenuItem("Combos",imageViewCombo ));
-        MenuItem menuItemReports = registerAction(new MenuItem("Reportes",imageViewReports ));
         MenuItem menuItemServices = registerActionServices(new MenuItem("Servicios",imageViewServices ));
         MenuItem menuItemTopics = registerActionTopic(new MenuItem("Temática",imageViewTopics ));
         MenuItem menuItemUsers = registerActionUsers(new MenuItem("Usuarios",imageViewUsers ));
-
-        MenuItem menuItemParty = registerAction(new MenuItem("Fiesta",imageViewParty ));
         MenuItem menuItemBookings = registerActionBookings(new MenuItem("Reservas",imageViewBookings ));
         MenuItem menuItemClients = registerActionClients(new MenuItem("Clientes",imageViewClients ));
-        MenuItem menuItemProducts = registerAction(new MenuItem("Productos",imageViewProducts ));
-        MenuItem menuItemPayments = registerAction(new MenuItem("Pagos",imageViewPayments ));
+        MenuItem menuItemProducts = registerActionProducts(new MenuItem("Productos",imageViewProducts ));
 
+        MenuItem menuItemPayments = registerAction(new MenuItem("Pagos",imageViewPayments ));
+        MenuItem menuItemParty = registerAction(new MenuItem("Fiesta",imageViewParty ));
+        MenuItem menuItemProviders = registerActionProviders(new MenuItem("Proveedores",imageViewProviders ));
+        MenuItem menuItemReports = registerAction(new MenuItem("Reportes",imageViewReports ));
 
         List<MenuItem> menuItemList = new ArrayList<>();
 
@@ -192,6 +190,15 @@ public class CustomMenuController
         menuItem.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent t) {
                 stageManager.switchScene(FxmlView.BOOKING);
+            }
+        });
+        return menuItem;
+    }
+
+    private MenuItem registerActionProducts(MenuItem menuItem) {
+        menuItem.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent t) {
+                stageManager.switchScene(FxmlView.PRODUCT);
             }
         });
         return menuItem;

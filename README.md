@@ -97,10 +97,10 @@ _**Bar:**_
 - [ ] El sistema debe permitir la eliminación de un proveedor.
 - [ ] El sistema debe permitir visualizar los datos del proveedor.
 - [ ] El usuario podrá visualizar qué producto vende cada proveedor.
-- [ ] El sistema debe permitir la carga de un nuevo producto.
-- [ ] El sistema debe permitir la modificación de los datos de los productos.
-- [ ] El sistema debe permitir la eliminación de un producto.
-- [ ] El sistema debe permitir visualizar los datos de los productos.
+- [x] El sistema debe permitir la carga de un nuevo producto.
+- [x] El sistema debe permitir la modificación de los datos de los productos.
+- [x] El sistema debe permitir la eliminación de un producto.
+- [x] El sistema debe permitir visualizar los datos de los productos.
 - [ ] El sistema debe permitir emitir un informe mensual de bebidas de vendidas.
 - [ ] El sistema debe permitir emitir un informe de existencia de stock.
 
@@ -170,9 +170,9 @@ _**Reservas:**_
 
 _**Lista de Requerimientos no Funcionales:**_
 
-- [ ] El sistema debe proporcionar mensajes de error que sean informativos y orientados a usuario final.
+- [x] El sistema debe proporcionar mensajes de error que sean informativos y orientados a usuario final.
 - [x] El sistema debe asegurar que los datos estén protegidos del acceso no autorizado.
-- [ ] El sistema debe asegurar que los datos estén protegidos del acceso no autorizado.
+- [x] El sistema debe asegurar que los datos estén protegidos del acceso no autorizado.
 
 _*Extras:*_
 
@@ -182,5 +182,6 @@ _*Extras:*_
 - [x] Eliminacion de a varias entidades selecionadas pudiendo utilizar las teclas *ctrl* o *shift* para selecionarlas
 - [x] Actulizado intantaneo de los datos al ser gusrdados para las pantallas descritas arriba;
 - [x] Menu circular _"Pop-up"_ con animación que se despliega desde la esquina.
-- [ ] Reloj en el menu de inicio que señala si es hora de que turno de la fiesta o de mantenimiento del salon.
+- [x] Reloj en el menu de inicio que señala si es hora de que turno de la fiesta o de mantenimiento del salon.
+- [ ] Hacer que el reloj cambie de color según el horario de fiesta o de limpieza;
 - [x] Desahabilitar el calendario para menores de 18 años en las pantallas Usuario y Cliente.
