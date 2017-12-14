@@ -5,6 +5,7 @@ import com.pelotero.mp.bean.Client;
 import com.pelotero.mp.config.StageManager;
 import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.helper.AlertHelper;
+import com.pelotero.mp.helper.DatePickerHelper;
 import com.pelotero.mp.helper.GraphicsHelper;
 import com.pelotero.mp.helper.ValidationHelper;
 import com.pelotero.mp.service.ClientService;
@@ -251,24 +252,11 @@ public class ClientController implements Initializable {
         clientTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnProperties();
         loadClientDetails();
-        setCalendarFonOnlyAdults();
+        DatePickerHelper.setCalendarFonOnlyAdults(dob);
         cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, this.borderPane, true)
                 .withAnimationInterpolation(null)
                 .withAutoShowAndHide(true);
         cornerMenu.getItems().addAll(customMenu.addMenuItems());
-    }
-
-    private void setCalendarFonOnlyAdults() {
-        dob.setDayCellFactory(picker -> new DateCell() {
-            @Override
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                if (date.isAfter(LocalDate.now().minusYears(Constants.MINIMUN_AGE))) {
-                    setDisable(true);
-                }
-            }
-        });
-        dob.setValue(LocalDate.now().minusYears(Constants.MINIMUN_AGE));
     }
 
     private void setColumnProperties(){

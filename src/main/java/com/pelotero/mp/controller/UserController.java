@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import com.pelotero.mp.Main;
 import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.helper.AlertHelper;
+import com.pelotero.mp.helper.DatePickerHelper;
 import com.pelotero.mp.helper.GraphicsHelper;
 import com.pelotero.mp.helper.ValidationHelper;
 
@@ -254,29 +255,13 @@ public class UserController implements Initializable {
         // Add all users into table
         loadUserDetails();
 
-        setCalendarFonOnlyAdults();
+        DatePickerHelper.setCalendarFonOnlyAdults(dob);
         cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, borderPane, true)
                 .withAnimationInterpolation(null)
                 .withAutoShowAndHide(true);
         cornerMenu.getItems().addAll(customMenu.addMenuItems());
     }
 
-    private void setCalendarFonOnlyAdults() {
-        dob.setDayCellFactory(picker -> new DateCell() {
-            @Override
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                if (date.isAfter(LocalDate.now().minusYears(Constants.MINIMUN_AGE))) {
-                    setDisable(true);
-                }
-            }
-        });
-        dob.setValue(LocalDate.now().minusYears(Constants.MINIMUN_AGE));
-    }
-
-    /*
-     *  Set All userTable column properties
-     */
     private void setColumnProperties(){
         colUserId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));

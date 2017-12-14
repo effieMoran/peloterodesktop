@@ -11,6 +11,7 @@ import com.pelotero.mp.bean.Topic;
 import com.pelotero.mp.config.StageManager;
 import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.helper.AlertHelper;
+import com.pelotero.mp.helper.DatePickerHelper;
 import com.pelotero.mp.helper.GraphicsHelper;
 import com.pelotero.mp.service.BillLineService;
 import com.pelotero.mp.service.BillService;
@@ -192,24 +193,12 @@ public class BookingController implements Initializable{
         comboBoxDuty.getItems().addAll(dutyService.findAll());
         comboBoxTopic.getItems().addAll(topicService.findAll());
         comboBoxTopic.getItems().addAll(topicService.findAll());
-        disableRangeDates();
+        DatePickerHelper.disableRangeDates(datePicckerParty);
 
         cornerMenu= new CornerMenu(CornerMenu.Location.TOP_LEFT, borderPane, true)
                 .withAnimationInterpolation(null)
                 .withAutoShowAndHide(true);
         cornerMenu.getItems().addAll(customMenu.addMenuItems());
-    }
-
-    private void disableRangeDates(){
-        datePicckerParty.setDayCellFactory(picker -> new DateCell() {
-            @Override
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                if (date.isBefore(LocalDate.now()) || date.isAfter(LocalDate.now().plusDays(29))) {
-                    setDisable(true);
-                }
-            }
-        });
     }
 
     private void setColumnProperties(){
