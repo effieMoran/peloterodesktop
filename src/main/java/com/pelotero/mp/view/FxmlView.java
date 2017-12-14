@@ -78,7 +78,7 @@ public enum FxmlView {
 
         @Override
         public String getFxmlFile() {
-            return "/fxml/Product.fxml";
+            return "/fxml/Stock.fxml";
         }
     },
     COMBO {

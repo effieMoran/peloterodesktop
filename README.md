@@ -174,7 +174,7 @@ _**Lista de Requerimientos no Funcionales:**_
 - [x] El sistema debe asegurar que los datos estén protegidos del acceso no autorizado.
 - [x] El sistema debe asegurar que los datos estén protegidos del acceso no autorizado.
 
-_*Extras:*_
+_**Extras:**_
 
 - [x] Grilla para que se reorganizable por campo para las pantallas de "Temática", "Servicio", "Combo", "Usuarios" y
 "Clientes"
