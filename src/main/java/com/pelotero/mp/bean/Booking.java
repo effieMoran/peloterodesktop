@@ -6,9 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,6 +32,7 @@ import java.time.LocalDate;
 @ToString
 @Entity
 @Table(name = "booking")
+//@Converter(autoApply = true)
 public class Booking {
 
     @Id
@@ -60,10 +64,12 @@ public class Booking {
 
     @Getter
     @Setter
-    private LocalDate date;
+    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
+    private LocalDate bookingDate;
 
     @Getter
     @Setter
+    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
     private LocalDate partyDate;
 
     @Getter

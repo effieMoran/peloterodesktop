@@ -10,9 +10,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -70,6 +72,7 @@ public class Client {
 
     @Getter
     @Setter
+    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
     private LocalDate birthDate;
 
     @Setter

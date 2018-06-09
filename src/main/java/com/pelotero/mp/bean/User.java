@@ -1,8 +1,11 @@
 package com.pelotero.mp.bean;
 
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+
 import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +23,7 @@ public class User {
     private long id;
     private String firstName;
     private String lastName;
+    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
     private LocalDate dob;
     private String gender;
     private String role;
