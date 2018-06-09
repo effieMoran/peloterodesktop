@@ -201,7 +201,7 @@ public class UserController implements Initializable {
         userId.setText(null);
         firstName.clear();
         lastName.clear();
-        dob.getEditor().clear();
+        dob.setValue(LocalDate.now().minusYears(Constants.MINIMUN_AGE));
         rbMale.setSelected(true);
         rbFemale.setSelected(false);
         cbRole.getSelectionModel().clearSelection();

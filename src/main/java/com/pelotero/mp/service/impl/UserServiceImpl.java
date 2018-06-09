@@ -67,6 +67,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean isAdmin(String email){
 		User user = findByEmail(email);
-		return "admin".equals(user.getRole());
+		return "Admin".equals(user.getRole());
 	}
 }

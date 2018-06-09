@@ -101,7 +101,6 @@ public class BookingController implements Initializable{
     @FXML
     private DatePicker datePicckerParty;
 
-
     @FXML
     private RadioButton rbFirstTurn;
     @FXML
@@ -211,7 +210,7 @@ public class BookingController implements Initializable{
         columnTopic.setCellValueFactory(new PropertyValueFactory<Booking, Topic>("topic"));
         colService.setCellValueFactory(new PropertyValueFactory<Booking, Duty>("duty"));
         columnClient.setCellValueFactory(new PropertyValueFactory<Booking, Client>("client"));
-        columnBookingDate.setCellValueFactory(new PropertyValueFactory<Booking, LocalDate>("date"));
+        columnBookingDate.setCellValueFactory(new PropertyValueFactory<Booking, LocalDate>("bookingDate"));
         columnKidsInvited.setCellValueFactory(new PropertyValueFactory<Booking, Integer>("kidsInvited"));
         columnStatus.setCellValueFactory(new PropertyValueFactory<Booking, String>("status"));
         columnPartyDate.setCellValueFactory(new PropertyValueFactory<Booking, LocalDate>("partyDate"));
@@ -249,31 +248,11 @@ public class BookingController implements Initializable{
                             else{
                                 btnEdit.setOnAction(e ->{
                                     Booking booking = getTableView().getItems().get(getIndex());
-                                    if(!Constants.BOOKING_NO_REFUND.equals(booking.getStatus())){
-                                        if(!Constants.BOOKING_FINALIZED.equals(booking.getStatus())){
-                                            if(!Constants.BOOKING_CANCELLED.equals(booking.getStatus())) {
-                                                updateBooking(booking);
-                                            }
-                                            else{
-                                                AlertHelper.errorAlert(Constants.BOOKING_CANCELATION_EXPIRED_TITLE,
-                                                        "La reserva fue cancelada",
-                                                        "No se pueden modificar reservas canceladas.");
-                                            }
-                                        }
-                                        else{
-                                            AlertHelper.errorAlert(Constants.BOOKING_CANCELATION_EXPIRED_TITLE,
-                                                    "La fiesta ya ha finalizado",
-                                                    "No se pueden modificar reservas pasadas.")
-                                            ;
-                                        }
+                                    if(bookingService.editBookingPossible(booking)) {
+                                        updateBooking(booking);
                                     }
-                                    else {
-                                        AlertHelper.errorAlert(
-                                                Constants.BOOKING_CANCELATION_EXPIRED_TITLE,
-                                                Constants.BOOKING_CANCELATION_EXPIRED_HEADER,
-                                            Constants.BOOKING_CANCELATION_EXPIRED_MESSAGE);
                                     }
-                                });
+                                );
 
                                 btnEdit.setStyle(Constants.TRANSPARENT_BACKGROUND);
                                 btnEdit.setGraphic(GraphicsHelper.fixEditImage(getClass()));
@@ -364,8 +343,7 @@ public class BookingController implements Initializable{
     void saveBooking(ActionEvent event) {
         String message = "";
         if(null != datePicckerParty.getValue() && !"".equals(kidsInvited.getText()) && null != kidsInvited.getText() &&
-                null != comboBoxClient.getValue() && null != comboBoxCombo.getValue() &&
-                null != comboBoxDuty.getValue() && null != comboBoxTopic.getValue()
+                null != comboBoxClient.getValue() && null != comboBoxCombo.getValue()
                 ){
             if(partyService.isPartyAvailableForBooking(datePicckerParty.getValue(),getTurn())) {
                 passedEmptyValidation();
@@ -411,7 +389,6 @@ public class BookingController implements Initializable{
         if(null == datePicckerParty.getValue()) message += Constants.EMPTY_DATE;
         if(null == comboBoxClient.getValue()) message += Constants.EMPTY_CLIENT;
         if(null == comboBoxCombo.getValue()) message += Constants.EMPTY_COMBO;
-        if(null == comboBoxDuty.getValue()) message += Constants.EMPTY_DUTY;
         if(null == comboBoxTopic.getValue()) message += Constants.EMPTY_TOPIC;
 
         AlertHelper.validationAlert("la reserva.", message);
@@ -446,7 +423,7 @@ public class BookingController implements Initializable{
         booking.setParty(party);
 
         booking.setTurn(getTurn());
-        booking.setDate(LocalDate.now());
+        booking.setBookingDate(LocalDate.now());
         booking.setPartyDate(datePicckerParty.getValue());
         booking.setStatus(Constants.BOOKING_WAITING);
         booking.setClient(comboBoxClient.getValue());

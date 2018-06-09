@@ -1,11 +1,13 @@
 package com.pelotero.mp.service.impl;
 
 import com.pelotero.mp.bean.Booking;
+import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.repository.BookingRepository;
 import com.pelotero.mp.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -50,5 +52,22 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> findAll() {
         return bookingRepository.findAll();
+    }
+
+    @Override
+    public boolean editBookingPossible(Booking booking){
+
+        if(booking.getPartyDate().isAfter(LocalDate.now())){
+
+        }
+        if(!Constants.BOOKING_FINALIZED.equals(booking.getStatus())) {
+
+        }
+
+        if (!Constants.BOOKING_CANCELLED.equals(booking.getStatus())) {
+
+        }
+
+        return true;
     }
 }
