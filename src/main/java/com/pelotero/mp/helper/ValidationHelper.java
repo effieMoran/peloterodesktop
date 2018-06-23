@@ -43,4 +43,12 @@ public class  ValidationHelper {
         }
         alert.showAndWait();
     }
+
+    public static void validationFieldAlert(String title, String header, String contentText){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(contentText);
+        alert.showAndWait();
+    }
 }

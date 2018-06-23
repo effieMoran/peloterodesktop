@@ -4,8 +4,10 @@ import com.pelotero.mp.Main;
 import com.pelotero.mp.bean.Topic;
 import com.pelotero.mp.config.StageManager;
 import com.pelotero.mp.constants.Constants;
+import com.pelotero.mp.constants.ValidationMessages;
 import com.pelotero.mp.helper.AlertHelper;
 import com.pelotero.mp.helper.GraphicsHelper;
+import com.pelotero.mp.helper.ValidationHelper;
 import com.pelotero.mp.service.TopicService;
 import com.pelotero.mp.view.FxmlView;
 import javafx.application.Platform;
@@ -15,9 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
@@ -26,12 +26,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import jfxtras.scene.menu.CornerMenu;
-import org.aspectj.apache.bcel.classfile.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -39,7 +36,6 @@ import org.springframework.stereotype.Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Controller
@@ -196,7 +192,14 @@ public class TopicsController implements Initializable {
 
     @FXML
     private void save(ActionEvent event){
+        submitForm(name);
+        clearFields();
+        loadTopicDetails();
+    }
+
+    public void submitForm(TextField textField) {
         if(labelTopicId.getText() == null || "".equals(labelTopicId.getText())){
+
             if(!"".equals(getName())){
                 Topic topic = new Topic();
                 setTopicFields(topic);
@@ -204,14 +207,24 @@ public class TopicsController implements Initializable {
                 AlertHelper.saveAlert("Temática", " La temática "+ topic.getName()+
                         " con ID "+ topic.getId());
             }
+            else {
+                validateInput();
+            }
         }else{
-            Topic topic = topicService.find(Long.parseLong(labelTopicId.getText()));
-            setTopicFields(topic);
-            topicService.update(topic);
-            AlertHelper.updateAlert("Temática", topic.getName());
+            if(!"".equals(getName())){
+                Topic topic = topicService.find(Long.parseLong(labelTopicId.getText()));
+                setTopicFields(topic);
+                topicService.update(topic);
+                AlertHelper.updateAlert("Temática", topic.getName());
+            }
+            else {
+                validateInput();
+            }
         }
-        clearFields();
-        loadTopicDetails();
+    }
+
+    private void validateInput() {
+        ValidationHelper.validationFieldAlert(ValidationMessages.TITLE_TOPIC, ValidationMessages.HADER_NOT_SAVE, ValidationMessages.CONTENT_TEXT_TOPIC);
     }
 
     private void setTopicFields(Topic topic) {

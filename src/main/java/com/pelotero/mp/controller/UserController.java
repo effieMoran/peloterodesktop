@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.pelotero.mp.Main;
 import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.helper.AlertHelper;
 import com.pelotero.mp.helper.DatePickerHelper;
@@ -15,7 +14,6 @@ import com.pelotero.mp.helper.ValidationHelper;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -46,8 +44,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 
 @Controller
@@ -81,6 +77,7 @@ public class UserController implements Initializable {
     @FXML
     private ComboBox<String> cbRole;
     @FXML
+    //@FXRequired
     private TextField email;
     @FXML
     private PasswordField password;

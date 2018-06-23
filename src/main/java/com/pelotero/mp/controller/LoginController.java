@@ -46,9 +46,9 @@ public class LoginController implements Initializable{
     private void login(ActionEvent event) throws IOException{
     	if(userService.authenticate(getUsername(), getPassword())){
     		Main.setAdmin( userService.isAdmin(getUsername()));
-    		if(Main.isAdmin()) {
-				stageManager.switchScene(FxmlView.MENUADMIN);
-			}
+
+			stageManager.switchScene(FxmlView.MENUADMIN);
+
     	}else{
     		lblLogin.setText("Login Failed.");
     	}
