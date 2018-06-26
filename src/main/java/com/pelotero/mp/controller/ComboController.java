@@ -7,7 +7,6 @@ import com.pelotero.mp.config.StageManager;
 import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.helper.AlertHelper;
 import com.pelotero.mp.helper.GraphicsHelper;
-import com.pelotero.mp.helper.ValidationHelper;
 import com.pelotero.mp.service.ComboService;
 import com.pelotero.mp.service.ItemService;
 import com.pelotero.mp.view.FxmlView;
@@ -18,11 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.AccessibleAction;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
@@ -90,7 +85,8 @@ public class ComboController implements Initializable {
     @FXML
     private Label labelComboId;
     @FXML
-    private ListView<?> selectedItems;
+    private ListView<Item> selectedItems;
+    public static final ObservableList items = FXCollections.observableArrayList();
     @FXML
     private TableView<Combo> comboTable;
     @FXML
@@ -268,34 +264,62 @@ public class ComboController implements Initializable {
     }
 
     @FXML
+    void addItemToList(ActionEvent event) {
+        Item item = new Item(newItem.getText());
+        items.add(item);
+        selectedItems.setItems(items);
+        newItem.clear();
+    }
+
+    @FXML
     void reset(ActionEvent event) {
         clearFields();
     }
 
     @FXML
     void deleteItem(ActionEvent event) {
+        Item item = (Item) event.getSource();
+        items.remove(item);
         clearFields();
     }
 
     @FXML
     void save(ActionEvent event) {
         if(labelComboId.getText() == null || "".equals(labelComboId.getText())){
-
+            if (comboIsValid()) {
                 Combo combo = new Combo();
                 setComboFields(combo);
-                combo =comboService.save(combo);
+                combo = comboService.save(combo);
                 //TODO: Mejorar alerts
-                AlertHelper.saveAlert("Combo", "El combo "+combo.getName());
-
+                AlertHelper.saveAlert("Combo", "El combo " + combo.getName());
+            }
         }else{
-            Combo combo = comboService.find(Long.parseLong(labelComboId.getText()));
-            setComboFields(combo);
-            combo = comboService.update(combo);
-            AlertHelper.updateAlert("Usuario", combo.getName() + " " + combo.getPrice());
+            if (comboIsValid()) {
+                Combo combo = comboService.find(Long.parseLong(labelComboId.getText()));
+                setComboFields(combo);
+                combo = comboService.update(combo);
+                AlertHelper.updateAlert("Usuario", combo.getName() + " " + combo.getPrice());
+            }
         }
 
         clearFields();
         loadComboDetails();
+    }
+
+    private boolean comboIsValid() {
+        if ("".equals(comboName.getText())) {
+            return false;
+        }
+        if (!comboPrice.getText().matches(Constants.NUMBER_PATTERN)) {
+           return false;
+        }
+        if ( selectedItems.getItems().isEmpty()) {
+            return false;
+        }
+        if ("".equals(comboPrice.getText())) {
+            return false;
+        }
+        return true;
     }
     String getName(){
         return comboName.getText();

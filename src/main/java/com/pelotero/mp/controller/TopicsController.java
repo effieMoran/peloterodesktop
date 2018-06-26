@@ -224,7 +224,7 @@ public class TopicsController implements Initializable {
     }
 
     private void validateInput() {
-        ValidationHelper.validationFieldAlert(ValidationMessages.TITLE_TOPIC, ValidationMessages.HADER_NOT_SAVE, ValidationMessages.CONTENT_TEXT_TOPIC);
+        ValidationHelper.validationFieldAlert(ValidationMessages.TITLE_BOOKING, ValidationMessages.HEADER_BOOKING, ValidationMessages.CONTENT_TEXT_TOPIC);
     }
 
     private void setTopicFields(Topic topic) {

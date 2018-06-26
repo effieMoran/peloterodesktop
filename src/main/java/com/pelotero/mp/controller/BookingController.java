@@ -9,9 +9,11 @@ import com.pelotero.mp.bean.Party;
 import com.pelotero.mp.bean.Topic;
 import com.pelotero.mp.config.StageManager;
 import com.pelotero.mp.constants.Constants;
+import com.pelotero.mp.constants.ValidationMessages;
 import com.pelotero.mp.helper.AlertHelper;
 import com.pelotero.mp.helper.DatePickerHelper;
 import com.pelotero.mp.helper.GraphicsHelper;
+import com.pelotero.mp.helper.ValidationHelper;
 import com.pelotero.mp.service.BillLineService;
 import com.pelotero.mp.service.BillService;
 import com.pelotero.mp.service.BookingService;
@@ -339,59 +341,76 @@ public class BookingController implements Initializable{
         clearFields();
     }
 
+    private String fieldValidationMessage = "";
     @FXML
     void saveBooking(ActionEvent event) {
-        String message = "";
-        if(null != datePicckerParty.getValue() && !"".equals(kidsInvited.getText()) && null != kidsInvited.getText() &&
-                null != comboBoxClient.getValue() && null != comboBoxCombo.getValue()
-                ){
-            if(partyService.isPartyAvailableForBooking(datePicckerParty.getValue(),getTurn())) {
-                passedEmptyValidation();
+
+        if (passedFieldValidation()) {
+            if (bookingId.getText() == null || "".equals(bookingId.getText())) {
+
+                Booking booking = new Booking();
+                setBookingFields(booking);
+                Bill bill = billService.generateBill(booking);
+                if (AlertHelper.confirmation("Datos de la reserva", "Datos de la fiesta: " + bill,
+                        "¿Está seguro de que desea realizar la reserva?")) {
+                    partyService.save(booking.getParty());
+                    bill.setBillLines(billLineService.saveAll(bill.getBillLines()));
+                    bill = billService.save(bill);
+                    booking = bookingService.save(booking);
+                    AlertHelper.saveAlert("Reserva guardada", "El identificador de la reserva es " +
+                            booking.getId() + ".\n");
+                }
+            } else {
+                Booking booking = bookingService.find(Long.parseLong(bookingId.getText()));
+                setBookingFields(booking);
+                booking = bookingService.update(booking);
+                AlertHelper.saveAlert("Reserva Actualizadacon exito", " ");
             }
-            else {
-                AlertHelper.validationAlert("la reserva", Constants.BOOKING_NOT_AVAILABLE);
-            }
+
+            clearFields();
+            loadBookingDetails();
         }
         else {
-            emptyValidation(message);
+            ValidationHelper.validationFieldAlert(ValidationMessages.TITLE_TOPIC, ValidationMessages.HEADER_NOT_SAVE, fieldValidationMessage);
         }
     }
 
-    private void passedEmptyValidation() {
-        if (bookingId.getText() == null || "".equals(bookingId.getText())) {
-
-            Booking booking = new Booking();
-            setBookingFields(booking);
-            Bill bill = billService.generateBill(booking);
-            if(AlertHelper.confirmation("Datos de la reserva", "Datos de la fiesta: " + bill,
-                    "¿Está seguro de que desea realizar la reserva?")) {
-                partyService.save(booking.getParty());
-                bill.setBillLines(billLineService.saveAll(bill.getBillLines()));
-                bill = billService.save(bill);
-                booking = bookingService.save(booking);
-                AlertHelper.saveAlert("Reserva guardada", "El identificador de la reserva es " +
-                        booking.getId() + ".\n" );
-            }
-        } else {
-            Booking booking = bookingService.find(Long.parseLong(bookingId.getText()));
-            setBookingFields(booking);
-            booking = bookingService.update(booking);
-            AlertHelper.saveAlert("Reserva Actualizadacon exito", " ");
+    private boolean passedFieldValidation() {
+        boolean isValid = true;
+        if ( null == comboBoxClient.getValue()) {
+            fieldValidationMessage += ValidationMessages.CLIENT_NOT_PRESENT;
+            isValid = false;
+        }
+        if (null == datePicckerParty.getPromptText()) {
+            fieldValidationMessage += ValidationMessages.DATE_NOT_SELECTED;
+        }
+        if (!partyService.isPartyAvailableForBooking(datePicckerParty.getValue(), getTurn())) {
+            fieldValidationMessage += ValidationMessages.PARTY_NOT_AVAILABLE;
+            isValid = false;
+        }
+        if (null == comboBoxCombo.getValue()) {
+            fieldValidationMessage += ValidationMessages.COMBO_NOT_PRESENT;
+            isValid = false;
         }
 
-        clearFields();
-        loadBookingDetails();
-    }
+        if (null == comboBoxTopic.getValue()) {
+            fieldValidationMessage += ValidationMessages.TOPIC_NOT_PRESENT;
+            isValid = false;
+        }
 
-    private void emptyValidation(String message) {
+        if ("".equals(kidsInvited.getText())) {
+            fieldValidationMessage += ValidationMessages.KIDS_INVITED_NOT_PRESENT;
+            isValid = false;
+        } else if ( !kidsInvited.getText().matches(Constants.NUMBER_PATTERN)) {
+            fieldValidationMessage += ValidationMessages.KIDS_NUMBER_NOT_NUMERIC;
+            isValid = false;
+        }
 
-        if("".equals(kidsInvited.getText()) && null == kidsInvited.getText()) message += Constants.EMPTY_KIDS_INVITED;
-        if(null == datePicckerParty.getValue()) message += Constants.EMPTY_DATE;
-        if(null == comboBoxClient.getValue()) message += Constants.EMPTY_CLIENT;
-        if(null == comboBoxCombo.getValue()) message += Constants.EMPTY_COMBO;
-        if(null == comboBoxTopic.getValue()) message += Constants.EMPTY_TOPIC;
-
-        AlertHelper.validationAlert("la reserva.", message);
+        if (!"".equals(kidAge.getText()) && !kidAge.getText().matches(Constants.NUMBER_PATTERN)) {
+            fieldValidationMessage += ValidationMessages.KID_AGE_NOT_NUMERIC;
+            isValid = false;
+        }
+        return isValid;
     }
 
     private void clearFields() {
@@ -413,10 +432,17 @@ public class BookingController implements Initializable{
     }
 
     private void setBookingFields(Booking booking) {
-        booking.setKidName(kidName.getText());
-        booking.setKidAge(Integer.valueOf(kidAge.getText()));
+        if (!"".equals(kidName.getText())) {
+            booking.setKidName(kidName.getText());
+        }
+        if (!"".equals(kidAge.getText())) {
+            booking.setKidAge(Integer.valueOf(kidAge.getText()));
+        }
         booking.setKidGender(getGender());
-        booking.setKidsInvited(Integer.valueOf(kidsInvited.getText()));
+
+        if (!"".equals(kidsInvited.getText())) {
+            booking.setKidsInvited(Integer.valueOf(kidsInvited.getText()));
+        }
 
         Party party = new Party(datePicckerParty.getValue());
         party.setTurn(getTurn());
@@ -429,7 +455,9 @@ public class BookingController implements Initializable{
         booking.setClient(comboBoxClient.getValue());
         booking.setCombo(comboBoxCombo.getValue());
         booking.setTopic(comboBoxTopic.getValue());
-        booking.setDuty(comboBoxDuty.getValue());
+        if (null != comboBoxDuty.getValue()) {
+            booking.setDuty(comboBoxDuty.getValue());
+        }
     }
 
 }
