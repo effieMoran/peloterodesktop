@@ -74,6 +74,12 @@ public class Booking {
 
     @Getter
     @Setter
+    @ManyToOne(fetch= FetchType.EAGER, cascade = CascadeType.MERGE )
+    @JoinColumn(name = "bill_id")
+    Bill bill;
+
+    @Getter
+    @Setter
     private String status;
 
     @Setter

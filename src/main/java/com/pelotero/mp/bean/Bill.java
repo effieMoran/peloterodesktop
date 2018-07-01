@@ -55,13 +55,13 @@ public class Bill {
     @ManyToOne(fetch= FetchType.EAGER, cascade = CascadeType.MERGE )
     @JoinColumn(name = "client_id")
     private Client client;
-
+/*
     @Setter
     @Getter
     @OneToMany(fetch= FetchType.EAGER, cascade = CascadeType.MERGE)
     @ElementCollection(targetClass = Payment.class)
     private List<Payment> payments;
-
+*/
     @Setter
     @Getter
     @OneToMany(fetch= FetchType.EAGER, cascade = CascadeType.MERGE)

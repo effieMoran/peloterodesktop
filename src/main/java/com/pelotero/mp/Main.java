@@ -52,14 +52,12 @@ public class Main extends Application {
      * window.
      */
     protected void displayInitialScene() {
-        stageManager.switchScene(FxmlView.PRODUCT);
+        stageManager.switchScene(FxmlView.BOOKING);
     }
 
-    
     private ConfigurableApplicationContext springBootApplicationContext() {
         SpringApplicationBuilder builder = new SpringApplicationBuilder(Main.class);
         String[] args = getParameters().getRaw().stream().toArray(String[]::new);
         return builder.run(args);
     }
-
 }

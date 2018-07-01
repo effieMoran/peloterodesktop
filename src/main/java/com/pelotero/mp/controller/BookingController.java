@@ -356,6 +356,7 @@ public class BookingController implements Initializable{
                     partyService.save(booking.getParty());
                     bill.setBillLines(billLineService.saveAll(bill.getBillLines()));
                     bill = billService.save(bill);
+                    booking.setBill(bill);
                     booking = bookingService.save(booking);
                     AlertHelper.saveAlert("Reserva guardada", "El identificador de la reserva es " +
                             booking.getId() + ".\n");

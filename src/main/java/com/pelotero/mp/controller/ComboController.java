@@ -201,7 +201,7 @@ public class ComboController implements Initializable {
                                             Combo combo = getTableView().getItems().get(getIndex());
 
                                             List<MenuItem> menuItems = menuButton.getItems();
-                                            Iterator<MenuItem> menuItemIterator = menuItems.iterator();
+                                             Iterator<MenuItem> menuItemIterator = menuItems.iterator();
                                             while (menuItemIterator.hasNext()){
                                                 MenuItem itemForDelete = menuItemIterator.next();
                                                 ContextMenu contextMenu = new ContextMenu();
