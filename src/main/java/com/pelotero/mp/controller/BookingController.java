@@ -171,6 +171,9 @@ public class BookingController implements Initializable{
     @FXML
     private TableColumn<Booking, Boolean> colEdit;
 
+    @FXML
+    private TableColumn<Booking, Boolean> columnReport;
+
     public String getGender(){
         return rbMale.isSelected() ? "Niño" : "Niña";
     }
@@ -218,6 +221,7 @@ public class BookingController implements Initializable{
         columnPartyDate.setCellValueFactory(new PropertyValueFactory<Booking, LocalDate>("partyDate"));
 
         colEdit.setCellFactory(cellFactory);
+        columnReport.setCellFactory(cellReportFactory);
     }
 
     private void hideFields() {
@@ -228,6 +232,43 @@ public class BookingController implements Initializable{
         columnKidsInvited.setVisible(false);
         columnStatus.setVisible(false);
     }
+
+    Callback<TableColumn<Booking, Boolean>, TableCell<Booking, Boolean>> cellReportFactory =
+            new Callback<TableColumn<Booking, Boolean>, TableCell<Booking, Boolean>>()
+            {
+                @Override
+                public TableCell<Booking, Boolean> call( final TableColumn<Booking, Boolean> param)
+                {
+                    return   new TableCell<Booking, Boolean>()
+                    {
+                        final Button buttonReport = new Button();
+                        @Override
+                        public void updateItem(Boolean check, boolean empty)
+                        {
+                            super.updateItem(check, empty);
+                            if(empty)
+                            {
+                                setGraphic(null);
+                                setText(null);
+                            }
+                            else{
+                                buttonReport.setOnAction(e ->{
+                                            Booking booking = getTableView().getItems().get(getIndex());
+                                            //TODO: Here goes the report code
+                                        }
+                                );
+
+                                buttonReport.setStyle(Constants.TRANSPARENT_BACKGROUND);
+                                buttonReport.setGraphic(GraphicsHelper.fixReportImage(getClass()));
+                                setGraphic(buttonReport);
+                                setAlignment(Pos.CENTER);
+                                setText(null);
+                            }
+                        }
+
+                    };
+                }
+            };
 
     Callback<TableColumn<Booking, Boolean>, TableCell<Booking, Boolean>> cellFactory =
             new Callback<TableColumn<Booking, Boolean>, TableCell<Booking, Boolean>>()
@@ -290,7 +331,6 @@ public class BookingController implements Initializable{
                     };
                 }
             };
-
 
     private void loadBookingDetails(){
         bookingsList.clear();

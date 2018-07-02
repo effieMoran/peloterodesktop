@@ -20,4 +20,14 @@ public class GraphicsHelper {
         return iv;
     }
 
+    public static ImageView fixReportImage(Class<?> objectClass){
+        Image imageEdit = new Image(objectClass.getResourceAsStream(Constants.REPORT_BUTTON_URL));
+        ImageView iv = new ImageView();
+        iv.setImage(imageEdit);
+        iv.setPreserveRatio(true);
+        iv.setSmooth(true);
+        iv.setCache(true);
+        return iv;
+    }
+
 }
