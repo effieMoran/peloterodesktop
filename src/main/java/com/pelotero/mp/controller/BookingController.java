@@ -1,12 +1,11 @@
 package com.pelotero.mp.controller;
 
-import com.pelotero.mp.bean.Bill;
-import com.pelotero.mp.bean.Booking;
-import com.pelotero.mp.bean.Client;
-import com.pelotero.mp.bean.Combo;
-import com.pelotero.mp.bean.Duty;
-import com.pelotero.mp.bean.Party;
-import com.pelotero.mp.bean.Topic;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.Cell;
+import com.pelotero.mp.bean.*;
 import com.pelotero.mp.config.StageManager;
 import com.pelotero.mp.constants.Constants;
 import com.pelotero.mp.constants.ValidationMessages;
@@ -32,6 +31,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Callback;
 import jfxtras.scene.menu.CornerMenu;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +50,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -254,7 +259,7 @@ public class BookingController implements Initializable{
                             else{
                                 buttonReport.setOnAction(e ->{
                                             Booking booking = getTableView().getItems().get(getIndex());
-                                            //TODO: Here goes the report code
+                                            createReport(booking);
                                         }
                                 );
 
@@ -499,6 +504,104 @@ public class BookingController implements Initializable{
         if (null != comboBoxDuty.getValue()) {
             booking.setDuty(comboBoxDuty.getValue());
         }
+    }
+
+    public void createReport(Booking booking) {
+        ArrayList<ArrayList<String>> contents = new ArrayList<>();
+        for (BillLine bl: booking.getBill().getBillLines()) {
+            ArrayList<String> fila = new ArrayList<>();
+            fila.add(bl.getDescription());
+            fila.add(Double.toString(bl.getPrice()));
+            contents.add(fila);
+        }
+        try {
+            createBillPDF(contents, booking.getClient(), Double.toString(booking.getBill().getTotal()), Long.toString(booking.getBill().getId()) + "_" + booking.getBookingDate().toString());
+        }
+        catch (Exception e) {
+            System.out.println("PDF generation failed.");
+            e.printStackTrace(System.out);
+        }
+    }
+
+    private static void addTableHeader(PdfPTable table, List<String> headers) {
+        for (String s: headers) {
+            PdfPCell header = new PdfPCell();
+            header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            header.setBorderWidth(2);
+            header.setPhrase(new Phrase(s));
+            table.addCell(header);
+        }
+    }
+
+    private static void addRows(PdfPTable table, ArrayList<ArrayList<String>> rows) {
+        for (List<String> listRows: rows) {
+            for (String s: listRows) {
+                table.addCell(s);
+            }
+        }
+    }
+
+    public void createBillPDF(ArrayList<ArrayList<String>> content, Client client, String total, String name) throws DocumentException, IOException {
+        Document document = new Document();
+
+        PdfWriter.getInstance(document, new FileOutputStream(name +".pdf"));
+
+        document.open();
+
+        PdfPTable headerTable = new PdfPTable(3);
+        headerTable.setWidthPercentage(100);
+
+        headerTable.setWidths(new int[]{1, 1, 2});
+
+        Image img = Image.getInstance("C:\\Java\\peloterodesktop\\src\\main\\resources\\images\\logo_small.png");
+
+        PdfPCell imgCell = new PdfPCell();
+        imgCell.addElement(img);
+
+        PdfPCell textCell1 = new PdfPCell();
+        textCell1.addElement(new Paragraph("Pelotero Travesuras Infantiles"));
+        textCell1.addElement(new Paragraph("Franklin 657"));
+        textCell1.addElement(new Paragraph("Alberdi 869"));
+
+        PdfPCell textCell2 = new PdfPCell();
+        Font fontFactura = FontFactory.getFont(FontFactory.HELVETICA, 24, BaseColor.BLACK);
+        textCell2.addElement(new Paragraph("FACTURA",fontFactura));
+        textCell2.addElement(new Paragraph("CUIT: XXXXX"));
+        textCell2.addElement(new Paragraph("Ingresos brutos: XXXXX"));
+        textCell2.addElement(new Paragraph("Inicio de actividades: XX/XX/XX"));
+
+        headerTable.addCell(imgCell);
+        headerTable.addCell(textCell1);
+        headerTable.addCell(textCell2);
+        document.add(headerTable);
+
+        Font font = FontFactory.getFont(FontFactory.HELVETICA, 16, BaseColor.BLACK);
+        Paragraph p1 = new Paragraph("Sr/Es: " + client.getFirstName() + " " + client.getLastName(), font);
+        p1.setIndentationLeft(30);
+        Paragraph p2 = new Paragraph("Domicilio: " + client.getAdress() + "           Localidad: Resistencia", font);
+        p2.setIndentationLeft(30);
+        Paragraph p3 = new Paragraph("Total: ......................................................" + total);
+        p3.setIndentationLeft(50);
+
+        document.add(p1);
+        document.add(Chunk.NEWLINE);
+        document.add(p2);
+        document.add(Chunk.NEWLINE);
+
+        PdfPTable table = new PdfPTable(2);
+        List<String> listaColumnas = new ArrayList<>();
+        listaColumnas.add("Descripcion");
+        listaColumnas.add("Precio");
+        addTableHeader(table, listaColumnas)  ;
+
+        addRows(table, content);
+
+        document.add(Chunk.NEWLINE);
+        document.add(table);
+        document.add(Chunk.NEWLINE);
+        document.add(p3);
+
+        document.close();
     }
 
 }
